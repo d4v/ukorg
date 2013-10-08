@@ -12,6 +12,7 @@ pthread_cond_t  cond  = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 volatile bool bTap = false;
 static const long default_period_ns = 41666667; /* 60bpm, 24 ticks/beat => 1/24 */
+static const long max_period_ns = 125000000; /* 20bpm, 24 ticks/beat => 60/20/24 */
 volatile long period_ns = default_period_ns;
 
 void tick() {
@@ -54,7 +55,9 @@ void *getTap(void*) {
     clock_gettime(CLOCK_REALTIME,&tb);
 
     pthread_mutex_lock(&mutex);
-    period_ns = getPeriod(&ta,&tb);
+    long newPeriod = getPeriod(&ta,&tb);
+    if(newPeriod > max_period_ns)
+      period_ns = max_period_ns;
     bTap = true;
     pthread_cond_signal(&cond);
     pthread_mutex_unlock(&mutex);
