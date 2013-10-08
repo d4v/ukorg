@@ -1,4 +1,4 @@
 
-LDLIBS=-pthread
+LDLIBS=-pthread -lrt
 
 taptempo:
