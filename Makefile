@@ -1,0 +1,4 @@
+
+LDLIBS=-pthread
+
+taptempo:
