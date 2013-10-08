@@ -18,11 +18,9 @@ void tick() {
 	static const char clockTick = 0xf8;
 	ssize_t nb = 0;
 
-	for(int idx = 0; idx < 24; idx++) {
-		if ((nb = write(fd, &clockTick, 1)) == -1) {
-			perror("Failed to write");
-		}
-	}
+  if ((nb = write(fd, &clockTick, 1)) == -1) {
+    perror("Failed to write");
+  }
 
 	printf(".");
   fflush(stdout);
