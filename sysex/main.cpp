@@ -88,20 +88,23 @@ int main(int argc, char* argv[]) {
   unsigned char c;
 
   int data_in = open("data", O_RDONLY);
-  int data_midi = open("data_midi", O_WRONLY);
-
-  static const size_t chunkSize = 7;
+  int data_midi = creat("data_midi", S_IRUSR|S_IWUSR);
 
   int nbRead = 0;
-  unsigned char buf_in[chunkSize];
-  memset(buf_in,0,chunkSize);
-  while((nbRead = read(data_in,buf_in,chunkSize)) > 0) {
+  unsigned char buf_in[7];
+  memset(buf_in,0,7);
+  while((nbRead = read(data_in,buf_in,7)) > 0) {
     unsigned char buf_out[8];
     toMidi(buf_out,buf_in,nbRead);
-    dumpChunk(buf_in,chunkSize);
+    dumpChunk(buf_in,7);
     dumpChunk(buf_out,8);
-    memset(buf_in,0,chunkSize);
+    memset(buf_in,0,7);
+
+    write(data_midi,buf_out,nbRead+1);
   }
+
+  close(data_in);
+  close(data_midi);
 
   return 0;
 }
