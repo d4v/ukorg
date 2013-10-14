@@ -76,6 +76,28 @@ void toMidi(unsigned char * buf_out,
   }
 }
 
+void fromMidi(unsigned char * buf_out,
+              unsigned const char * buf_in, size_t size) {
+
+  /* Initiialize out buffer */
+  memset(buf_out,0,7);
+
+  /* First byte gathers the 7 following bytes first bit*/
+  unsigned char firstByte = buf_in[0];
+
+  /* First bit mask */
+  static const char firstBit = 0x80; /* 1000 0000 */
+
+  /* Byte to byte treatment */
+  int max = size < 8 ? size : 8;
+  for(int idx = 1; idx < max; idx++) {
+    /* Get next first bit by shifting the first byte */
+    firstByte <<= 1;
+    /* Give back its first bit to current byte and set it to output */
+    buf_out[idx -1] = buf_in[idx] | (firstByte & firstBit);
+  }
+}
+
 void dumpChunk(const unsigned char * chunk, size_t nb) {
   for(int idx = 0; idx < nb; idx++) {
     cout << bitdump(chunk[idx]) << "  ";
@@ -83,10 +105,7 @@ void dumpChunk(const unsigned char * chunk, size_t nb) {
   cout << endl;
 }
 
-int main(int argc, char* argv[]) {
-
-  unsigned char c;
-
+void convertData2Midi() {
   int data_in = open("data", O_RDONLY);
   int data_midi = creat("data_midi", S_IRUSR|S_IWUSR);
 
@@ -96,15 +115,47 @@ int main(int argc, char* argv[]) {
   while((nbRead = read(data_in,buf_in,7)) > 0) {
     unsigned char buf_out[8];
     toMidi(buf_out,buf_in,nbRead);
+    cout << "Data :           ";
     dumpChunk(buf_in,7);
+    cout << "MIDI :";
     dumpChunk(buf_out,8);
     memset(buf_in,0,7);
 
     write(data_midi,buf_out,nbRead+1);
+    cout << endl;
   }
 
   close(data_in);
   close(data_midi);
+}
+
+void convertMidi2Data() {
+  int data_midi = open("data_midi", O_RDONLY);
+  int data_out  = creat("data_out", S_IRUSR|S_IWUSR);
+
+  int nbRead = 0;
+  unsigned char buf_in[8];
+  memset(buf_in,0,8);
+  while((nbRead = read(data_midi,buf_in,8)) > 0) {
+    unsigned char buf_out[7];
+    fromMidi(buf_out,buf_in,nbRead);
+    cout << "MIDI :";
+    dumpChunk(buf_in,8);
+    cout << "Data :           ";
+    dumpChunk(buf_out,7);
+    memset(buf_in,0,8);
+
+    write(data_out, buf_out, nbRead-1);
+    cout << endl;
+  }
+
+  close(data_midi);
+  close(data_out);
+}
+
+int main(int argc, char* argv[]) {
+  convertData2Midi();
+  convertMidi2Data();
 
   return 0;
 }
