@@ -7,6 +7,8 @@ namespace ukorg {
 
 class ClockEvent : public MidiEvent {
 public:
+  virtual void cat(const unsigned char);
+  virtual bool ready();
   virtual void action();
 };
 

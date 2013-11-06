@@ -1,3 +1,5 @@
+*.o
+*.d
 .cproject
 .project
 *.swp

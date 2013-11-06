@@ -21,6 +21,7 @@ public:
   void nextEvent(MidiEvent **);
 
 private:
+  static void pushEvent(MidiDevice *,MidiEvent *);
   static void *readRoutine(void *args);
 };
 
