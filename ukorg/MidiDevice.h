@@ -17,7 +17,7 @@ class MidiDevice {
 public:
   MidiDevice();
   virtual ~MidiDevice();
-  
+
   void nextEvent(MidiEvent **);
 
 private:

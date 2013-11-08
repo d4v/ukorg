@@ -1,4 +1,5 @@
 #include <iostream>
+#include "utils.h"
 #include "ProgramDump.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ struct ukorg::_ProgMsg {
   char pad2;
 
   // 19 ~ 22 Delay FX
-  char sync;
+  char delaySync;
   char delayTime;
   char delayDepth;
   char delayType;
@@ -148,6 +149,15 @@ VoiceMode getVoiceMode(unsigned char byte) {
   return (VoiceMode) (byte >> 4);
 }
 
+typedef enum {
+  ARP_TYPE_UP,
+  ARP_TYPE_DOWN,
+  ARP_TYPE_ALT1,
+  ARP_TYPE_ALT2,
+  ARP_TYPE_RND,
+  ARP_TYPE_TRG
+} ArpType;
+
 void ProgramDump::init(void *msg) {
   progMsg = new ProgMsg;
   *progMsg = *((ProgMsg*) msg);
@@ -168,9 +178,31 @@ void ProgramDump::init(void *msg) {
       cout << "voice mode vocoder" << endl;
       break;
     default:
-      cout << "Voice mode wtf..." << endl;
+      cout << "Voice mode wtf?" << endl;
       break;
   }
 
-  cout << "Kbd octave : " << hex << (int) (progMsg->kbdOctave) << endl;
+  cout << "Arpeggio byte : " << bitdump(progMsg->arpOnOff) << endl;
+  bool arpOnOff = (progMsg->arpOnOff & 0x80) >> 7;
+  cout << "  on/off : " << arpOnOff << endl;
+
+  bool arpSync = progMsg->arpOnOff & 0x01;
+  cout << "  key sync : " << arpSync << endl;
+
+  bool arpLatch = (progMsg->arpOnOff & 0x40) >> 6;
+  cout << "  latch : " << arpLatch << endl;
+
+  cout << "  swing : " << dec << (int) (progMsg->arpSwing) << endl;
+
+  cout << "ArpType byte : " << bitdump(progMsg->arpType) << endl;
+  int arpType = progMsg->arpType & 0x07;
+  cout << "  arpType : " << arpType << endl;
+  int range = (progMsg->arpType & 0xF0) >> 4; 
+  cout << "  range : " << range << endl;
+
+  cout << "Kbd octave : " << (int) progMsg->kbdOctave << endl;
+
+  bool delaySync = (progMsg->delayTime & 0x80) >> 7;
+
+  cout << "DelaySync : " << delaySync << endl;
 }

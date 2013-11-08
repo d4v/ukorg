@@ -5,6 +5,7 @@
 using namespace std;
 using namespace ukorg;
 
+namespace ukorg {
 string bitdump(const char c) {
   string s;
   unsigned char mask = 0x80; /* 1000 0000 */
@@ -21,6 +22,7 @@ string bitdump(const char c) {
       s += ' ';
   }
   return s;
+}
 }
 
 void dumpChunk(const unsigned char * chunk, size_t nb) {
@@ -41,14 +43,18 @@ void SysExCodec::decode(unsigned char *buf_in,
   unsigned char firstByte = buf_in[0];
 
   /* First bit mask */
-  static const char firstBit = 0x80; /* 1000 0000 */
+  static const char firstBit = 0x01; /* 0000 0001 */
 
   /* Byte to byte treatment */
   for(int idx = 1; idx < 8; idx++) {
+    if(firstByte & firstBit)
+      /* Give back its first bit to current byte and set it to output */
+      buf_out[idx -1] = buf_in[idx] | 0x80;
+    else
+      buf_out[idx -1] = buf_in[idx];
+
     /* Get next first bit by shifting the first byte */
-    firstByte <<= 1;
-    /* Give back its first bit to current byte and set it to output */
-    buf_out[idx -1] = buf_in[idx] | (firstByte & firstBit);
+    firstByte >>= 1;
   }
 
   cout << "MIDI :";

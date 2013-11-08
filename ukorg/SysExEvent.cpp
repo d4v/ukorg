@@ -11,7 +11,8 @@ SysExEvent::SysExEvent() :
  mSize(1), // First header byte must be 0xF0
  mSysExMsgIdx(0),
  mBufIdx(0),
- mbReady(false) {
+ mbReady(false),
+ mDataCount(0) {
   memset(mHeader,0,mHeaderSize);
   memset(mBuf,0,mBufSize);
   memset(mSysExMsg,0,mSysExMsgSize);
@@ -20,11 +21,15 @@ SysExEvent::SysExEvent() :
 }
 
 void SysExEvent::addData(const unsigned char c) {
+  cerr << "SysExEvent::addData " << dec << mDataCount 
+                                 << " : " << hex << (int) c << endl;
   mBuf[mBufIdx++] = c;
   if(mBufIdx == 8) {
     SysExCodec::decode(mBuf,mSysExMsg + mSysExMsgIdx,&mSysExMsgIdx);
     mBufIdx = 0;
     memset(mBuf,0,mBufSize);
+  } else {
+    mDataCount++; 
   }
 }
 
@@ -39,7 +44,7 @@ void SysExEvent::finish() {
 #define END_OF_EXCLUSIVE 0xF7
 
 void SysExEvent::cat(const unsigned char c) {
-  cout << "SysExEvent::cat, c:" << hex << (int)c << endl;
+//  cout << "SysExEvent::cat, c:" << hex << (int)c << endl;
   if(mSize < 4) {
     mHeader[mSize] = c;
   } else

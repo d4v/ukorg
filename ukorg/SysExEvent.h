@@ -47,6 +47,8 @@ private:
 
   // Event ready to be actionned
   bool mbReady;
+
+  int mDataCount;
 };
 
 } // namespace ukorg

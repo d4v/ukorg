@@ -16,7 +16,7 @@ bool ClockEvent::ready() {
 
 void ClockEvent::action() {
   if(++tickCount == TEMPO_SUBDIVISION) {
-    cerr << "Tick!" << endl;
+//    cerr << "Tick!" << endl;
     tickCount = 0;
   }
 }
