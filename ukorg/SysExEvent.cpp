@@ -12,7 +12,8 @@ SysExEvent::SysExEvent() :
  mSysExMsgIdx(0),
  mBufIdx(0),
  mbReady(false),
- mDataCount(0) {
+ mDataCount(0),
+ mSysEx(0) {
   memset(mHeader,0,mHeaderSize);
   memset(mBuf,0,mBufSize);
   memset(mSysExMsg,0,mSysExMsgSize);
@@ -33,9 +34,22 @@ void SysExEvent::addData(const unsigned char c) {
   }
 }
 
+#define SYSEX_CURR_PROG_DUMP 0x40
+#define SYSEX_PROG_DATA_DUMP 0x4C
+#define SYSEX_GLOB_DATA_DUMP 0x51
+#define SYSEX_ALL_DATA_DUMP  0x50
+
 void SysExEvent::finish() {
   if(mBufIdx > 1) {
     SysExCodec::decode(mBuf,mSysExMsg + mSysExMsgIdx,&mSysExMsgIdx);
+  }
+
+  switch(mStatus) {
+    case SYSEX_CURR_PROG_DUMP:
+      mSysEx = new ProgramDump(mSysExMsg);
+      break;
+    default:
+      cerr << "Unknown sysex status : 0x" << hex << (int) mStatus << endl;
   }
 
   mbReady = true;
@@ -66,10 +80,8 @@ bool SysExEvent::ready() {
 }
 
 void SysExEvent::action() {
-  cout << "SysExEvent, status : " << hex << (int) mStatus;
-  cout << " on channel : " << mChannel << endl;
-  ProgramDump progDump;
-  progDump.init(mSysExMsg);
-
+  if(mSysEx) {
+    mSysEx->action();
+  }
 }
 

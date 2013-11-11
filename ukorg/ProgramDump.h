@@ -1,13 +1,16 @@
 #ifndef PROGRAM_DUMP_H
 #define PROGRAM_DUMP_H
 
+#include "SysEx.h"
+
 namespace ukorg {
 
-class ProgramDump {
+class ProgramDump : public SysEx {
 public:
-  ProgramDump() {}
-  virtual ~ProgramDump() {}
-  void init(void *);
+  ProgramDump(void*);
+  virtual ~ProgramDump();
+
+  virtual void action();
 
   void print();
 

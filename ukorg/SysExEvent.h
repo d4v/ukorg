@@ -5,6 +5,9 @@
 #include "MidiEvent.h"
 
 namespace ukorg {
+
+class SysEx;
+
 class SysExEvent : public MidiEvent {
  
 public:
@@ -49,6 +52,8 @@ private:
   bool mbReady;
 
   int mDataCount;
+
+  SysEx *mSysEx;
 };
 
 } // namespace ukorg

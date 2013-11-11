@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include "utils.h"
 #include "ProgramDump.h"
 
@@ -158,11 +159,22 @@ typedef enum {
   ARP_TYPE_TRG
 } ArpType;
 
-void ProgramDump::init(void *msg) {
-  progMsg = new ProgMsg;
+ProgramDump::ProgramDump(void *msg) {
+  progMsg = (ProgMsg*) malloc(sizeof(ProgMsg));
   *progMsg = *((ProgMsg*) msg);
+}
 
-  cout << "ProgramDump::init" << endl;
+ProgramDump::~ProgramDump() {
+  free(progMsg);
+}
+
+void ProgramDump::action() {
+  print();
+}
+
+void ProgramDump::print() {
+
+  cout << "ProgramDump::ProgramDump" << endl;
   cout << "Program name : " << progMsg->name << endl;
 
   VoiceMode mode = getVoiceMode(progMsg->voiceMode);
