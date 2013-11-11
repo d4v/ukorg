@@ -43,19 +43,15 @@ void SysExCodec::decode(unsigned char *buf_in,
   unsigned char firstByte = buf_in[0];
 
   /* First bit mask */
-  static const char firstBit = 0x01; /* 0000 0001 */
+  static const char firstBit = 0x80; /* 1000 0000 */
 
   /* Byte to byte treatment */
-  for(int idx = 1; idx < 8; idx++) {
-    if(firstByte & firstBit)
-      /* Give back its first bit to current byte and set it to output */
-      buf_out[idx -1] = buf_in[idx] | 0x80;
-    else
-      buf_out[idx -1] = buf_in[idx];
-
+  for(int idx = 7; idx > 0; idx--) {
     /* Get next first bit by shifting the first byte */
-    firstByte >>= 1;
-  }
+    firstByte <<= 1;
+    /* Give back its first bit to current byte and set it to output */
+    buf_out[idx-1] = buf_in[idx] | (firstByte & firstBit);
+  } 
 
   cout << "MIDI :";
   dumpChunk(buf_in,8);

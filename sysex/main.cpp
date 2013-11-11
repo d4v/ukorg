@@ -45,7 +45,7 @@ string bitdump(const char c) {
 }
 
 void toMidi(unsigned char * buf_out,
-            unsigned const char * buf_in, size_t size) {
+            unsigned const char * buf_in) {
   /* Initilize out buffer */
   memset(buf_out,0,8);
 
@@ -57,13 +57,12 @@ void toMidi(unsigned char * buf_out,
   static const char firstBit = 0x80; /* 1000 0000 */
 
   /* Byte to byte treatment */
-  int max = size < 7 ? size : 7;
-  for(int idx = 0; idx < max; idx++) {
+  for(int idx = 0; idx < 7; idx++) {
     /* Get current byte first bit */
     unsigned char tmpByte = buf_in[idx] & firstBit;
     if(tmpByte) {
       /* First bit is 1 */
-      tmpByte >>= idx+1;
+      tmpByte >>= 7-idx;
       /* Set first byte corresponding bit */
       *firstByte |= tmpByte;
       /* Set the 6 others bits in the out chunk */
@@ -77,7 +76,7 @@ void toMidi(unsigned char * buf_out,
 }
 
 void fromMidi(unsigned char * buf_out,
-              unsigned const char * buf_in, size_t size) {
+              unsigned const char * buf_in) {
 
   /* Initiialize out buffer */
   memset(buf_out,0,7);
@@ -89,8 +88,7 @@ void fromMidi(unsigned char * buf_out,
   static const char firstBit = 0x80; /* 1000 0000 */
 
   /* Byte to byte treatment */
-  int max = size < 8 ? size : 8;
-  for(int idx = 1; idx < max; idx++) {
+  for(int idx = 7; idx > 0; idx--) {
     /* Get next first bit by shifting the first byte */
     firstByte <<= 1;
     /* Give back its first bit to current byte and set it to output */
@@ -114,7 +112,7 @@ void convertData2Midi() {
   memset(buf_in,0,7);
   while((nbRead = read(data_in,buf_in,7)) > 0) {
     unsigned char buf_out[8];
-    toMidi(buf_out,buf_in,nbRead);
+    toMidi(buf_out,buf_in);
     cout << "Data :           ";
     dumpChunk(buf_in,7);
     cout << "MIDI :";
@@ -138,7 +136,7 @@ void convertMidi2Data() {
   memset(buf_in,0,8);
   while((nbRead = read(data_midi,buf_in,8)) > 0) {
     unsigned char buf_out[7];
-    fromMidi(buf_out,buf_in,nbRead);
+    fromMidi(buf_out,buf_in);
     cout << "MIDI :";
     dumpChunk(buf_in,8);
     cout << "Data :           ";

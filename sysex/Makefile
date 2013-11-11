@@ -1,3 +1,4 @@
 
+CXXFLAGS=-Wall -g
 
 main:
