@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 #include "utils.h"
 #include "ProgramDump.h"
@@ -170,6 +171,18 @@ ProgramDump::~ProgramDump() {
 
 void ProgramDump::action() {
   print();
+  save();
+}
+
+void ProgramDump::save() {
+
+  ofstream ofs;
+  ofs.open ("out.out", ofstream::out | ofstream::binary);
+
+  ofs.write((char*) progMsg,sizeof(ProgMsg));
+
+  ofs.close();
+
 }
 
 void ProgramDump::print() {
