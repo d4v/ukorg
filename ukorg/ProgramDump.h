@@ -3,6 +3,9 @@
 
 #include "SysEx.h"
 
+typedef struct _ProgMsg     ProgMsg;
+typedef struct _SynthParams SynthParams;
+
 namespace ukorg {
 
 class ProgramDump : public SysEx {
@@ -15,9 +18,6 @@ public:
 private:
   void print();
   void save();
-
-  typedef struct _ProgMsg ProgMsg;
-  typedef struct _SynthParams SynthParams;
 
   ProgMsg     *progMsg;
   SynthParams *synthParams1;
