@@ -1,54 +1,6 @@
 #ifndef PROG_MSG_H
 #define PROG_MSG_H
 
-typedef struct _ProgMsg {
-  // Program name
-  char name[12];
-  char pad1[2];
-
-  // 14 ~ 15 Arpeggio
-  char trigger;
-  char pattern;
-
-  // 16 Voice mode
-  char voiceMode;
-
-  // 17 Scale
-  char scale;
-  char pad2;
-
-  // 19 ~ 22 Delay FX
-  char delaySync;
-  char delayTime;
-  char delayDepth;
-  char delayType;
-
-  // 23 ~ 25 Mod FX
-  char modLfoSpeed;
-  char modDepth;
-  char modType;
-
-  // 26 ~ 29 EQ
-  char eqHiFreq;
-  char eqHiGain;
-  char eqLoFreq;
-  char eqLoGain;
-
-  // 30 ~ 36 Arpeggio
-  char arpTempo[2];
-  char arpOnOff;
-  char arpType;
-  char arpGateTime;
-  char arpResolution;
-  char arpSwing;
-
-  // 37 KBD octave
-  char kbdOctave;
-
-  // 38 ~ 253 timbre 1,2,vocoder
-  char params[216];
-} ProgMsg;
-
 typedef struct _SynthParams {
   char midiChannel;
   char assignMode;
@@ -133,6 +85,67 @@ typedef struct _SynthParams {
   char pad2[46];
 } SynthParams;
 
+typedef struct _LayeredParams {
+  SynthParams timbre1;
+  SynthParams timbre2;
+} LayeredParams;
+
+typedef struct _VocoderParams {
+  // TODO
+} VocoderParams;
+
+typedef struct _ProgMsg {
+  // Program name
+  char name[12];
+  char pad1[2];
+
+  // 14 ~ 15 Arpeggio
+  char trigger;
+  char pattern;
+
+  // 16 Voice mode
+  char voiceMode;
+
+  // 17 Scale
+  char scale;
+  char pad2;
+
+  // 19 ~ 22 Delay FX
+  char delaySync;
+  char delayTime;
+  char delayDepth;
+  char delayType;
+
+  // 23 ~ 25 Mod FX
+  char modLfoSpeed;
+  char modDepth;
+  char modType;
+
+  // 26 ~ 29 EQ
+  char eqHiFreq;
+  char eqHiGain;
+  char eqLoFreq;
+  char eqLoGain;
+
+  // 30 ~ 36 Arpeggio
+  char arpTempo[2];
+  char arpOnOff;
+  char arpType;
+  char arpGateTime;
+  char arpResolution;
+  char arpSwing;
+
+  // 37 KBD octave
+  char kbdOctave;
+
+  // 38 ~ 253 timbre 1,2,vocoder
+//  char params[216];
+  union {
+    LayeredParams synths;
+    VocoderParams vocoder;
+  } params;
+
+} ProgMsg;
 
 typedef enum {
   VOICE_MODE_SINGLE  = 0,
@@ -144,6 +157,33 @@ static
 VoiceMode getVoiceMode(const ProgMsg *msg) {
   int mode = msg->voiceMode & 0x30; // 0011 0000
   return (VoiceMode) (mode >> 4);
+}
+
+typedef enum {
+  TIMBRE_1,
+  TIMBRE_2,
+  TIMBRE_NB
+} VoiceLayer;
+
+typedef enum {
+  ASSIGN_MODE_MONO,
+  ASSIGN_MODE_POLY,
+  ASSIGN_MODE_UNISON
+} AssignMode;
+
+static
+AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
+  int mode = 0;
+  switch(layer) {
+    case TIMBRE_1:
+      mode = msg->params.synths.timbre1.assignMode;
+      break;
+    case TIMBRE_2:
+      mode = msg->params.synths.timbre2.assignMode;
+  }
+
+  mode &= 0xB0; // 1100 0000
+  return (AssignMode) (mode >> 6);
 }
 
 typedef enum {
