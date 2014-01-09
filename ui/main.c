@@ -20,7 +20,7 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
   {
     char *filename;
-    static const bufSize = sizeof(ProgMsg);
+    static const size_t bufSize = sizeof(ProgMsg);
     char buf[bufSize];
 
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
@@ -41,8 +41,6 @@ int main (int argc, char ** argv)
 {
   GtkBuilder  *  p_builder   = NULL;
   GError      *  p_err       = NULL;
-  GtkTreeIter  iter;
-  GtkCellRenderer * renderer;
 
   gtk_init (& argc, & argv);
 

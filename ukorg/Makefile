@@ -1,3 +1,4 @@
+CC=gcc
 
 OBJS=main.o \
 		 MidiDevice.o \
@@ -6,7 +7,8 @@ OBJS=main.o \
 		 ClockEvent.o \
 		 SysExEvent.o \
 		 SysExCodec.o \
-		 ProgramDump.o
+		 ProgramDump.o \
+		 ProgMsg.o
 
 CPPFLAGS=-g -Wall
 

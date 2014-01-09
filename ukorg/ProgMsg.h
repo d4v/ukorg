@@ -153,16 +153,14 @@ typedef enum {
   VOICE_MODE_VOCODER = 3
 } VoiceMode;
 
-static
-VoiceMode getVoiceMode(const ProgMsg *msg) {
-  int mode = msg->voiceMode & 0x30; // 0011 0000
-  return (VoiceMode) (mode >> 4);
-}
+#ifdef __cplusplus
+extern "C"
+#endif
+VoiceMode getVoiceMode(const ProgMsg *msg);
 
 typedef enum {
   TIMBRE_1,
-  TIMBRE_2,
-  TIMBRE_NB
+  TIMBRE_2
 } VoiceLayer;
 
 typedef enum {
@@ -171,20 +169,7 @@ typedef enum {
   ASSIGN_MODE_UNISON
 } AssignMode;
 
-static
-AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
-  int mode = 0;
-  switch(layer) {
-    case TIMBRE_1:
-      mode = msg->params.synths.timbre1.assignMode;
-      break;
-    case TIMBRE_2:
-      mode = msg->params.synths.timbre2.assignMode;
-  }
-
-  mode &= 0xB0; // 1100 0000
-  return (AssignMode) (mode >> 6);
-}
+AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg);
 
 typedef enum {
   ARP_TYPE_UP,

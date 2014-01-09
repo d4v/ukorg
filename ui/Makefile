@@ -3,11 +3,11 @@ CC=gcc
 CPPFLAGS=`pkg-config --cflags gtk+-x11-3.0 gmodule-2.0` \
 				 -I../ukorg
 
-CXXFLAGS=-g -Wall
+CFLAGS=-g -Wall
 
 LDLIBS=`pkg-config --libs gtk+-x11-3.0 gmodule-2.0`
 
-main: sound_panel.o
+main: sound_panel.o ../ukorg/ProgMsg.o
 
 
 .PHONY: clean
