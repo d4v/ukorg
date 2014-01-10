@@ -78,13 +78,10 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
 #undef ADD_COMBOBOX_ITEM_S
 #undef ADD_COMBOBOX_ITEM
 
-#define SET_COMBOBOX_VALUE_S(panel,box,value) \
-  gtk_combo_box_set_active( \
-      GTK_COMBO_BOX(panel.box),value);
-
-#define SET_COMBOBOX_VALUE(panel,box,value) \
-  gtk_combo_box_set_active( \
-      GTK_COMBO_BOX(panel[layer].box),value);
+void set_combo_box_value(GtkWidget *combobox,int value) {
+  if(gtk_combo_box_get_active(GTK_COMBO_BOX(combobox)) != value)
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combobox),value);
+}
 
 void basics_panel_set(SoundPanel *panel,VoiceMode mode) {
   bool layeringChanged = (mode != panel->voiceMode);
@@ -106,23 +103,15 @@ void basics_panel_set(SoundPanel *panel,VoiceMode mode) {
 
   switch(mode) {
     case VOICE_MODE_SINGLE :
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice))
-          != GTK_VOICE_SYNTH)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_voice,GTK_VOICE_SYNTH);
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layer))
-          != GTK_LAYER_SINGLE)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_layer,GTK_LAYER_SINGLE);
+      set_combo_box_value(panel->basics.combobox_voice,GTK_VOICE_SYNTH);
+      set_combo_box_value(panel->basics.combobox_layer,GTK_LAYER_SINGLE);
       gtk_widget_set_sensitive(panel->basics.combobox_layer,1);
       gtk_box_pack_start(GTK_BOX(panel->box_params_slot),panel->box_timbre[TIMBRE_1],0,0,0);
       break;
     case VOICE_MODE_LAYER :
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice))
-          != GTK_VOICE_SYNTH)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_voice,GTK_VOICE_SYNTH);
+      set_combo_box_value(panel->basics.combobox_voice,GTK_VOICE_SYNTH);
       gtk_widget_set_sensitive(panel->basics.combobox_layer,1);
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layer))
-          != GTK_LAYER_DOUBLE)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_layer,GTK_LAYER_DOUBLE);
+      set_combo_box_value(panel->basics.combobox_layer,GTK_LAYER_DOUBLE);
       gtk_notebook_append_page(
           GTK_NOTEBOOK(panel->notebook_layers),
           panel->box_timbre[TIMBRE_1],panel->label_layer_name[TIMBRE_1]);
@@ -132,13 +121,9 @@ void basics_panel_set(SoundPanel *panel,VoiceMode mode) {
       gtk_box_pack_start(GTK_BOX(panel->box_params_slot),panel->notebook_layers,0,0,0);
       break;
     case VOICE_MODE_VOCODER :
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice))
-          != GTK_VOICE_VOCODER)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_voice,GTK_VOICE_VOCODER);
+      set_combo_box_value(panel->basics.combobox_voice,GTK_VOICE_VOCODER);
       gtk_widget_set_sensitive(panel->basics.combobox_layer,0);
-      if(    gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layer))
-          != -1)
-        SET_COMBOBOX_VALUE_S(panel->basics,combobox_layer,-1);
+      set_combo_box_value(panel->basics.combobox_layer,-1);
       break;
   };
   
@@ -155,13 +140,13 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
   for(layer = 0; layer < 2; layer++) {
     switch(getAssignMode(layer,progMsg)) {
       case ASSIGN_MODE_MONO :
-        SET_COMBOBOX_VALUE(panel->voice,combobox_assign,GTK_ASSIGN_MONO);
+        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_MONO);
         break;
       case ASSIGN_MODE_POLY :
-        SET_COMBOBOX_VALUE(panel->voice,combobox_assign,GTK_ASSIGN_POLY);
+        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_POLY);
         break;
       case ASSIGN_MODE_UNISON :
-        SET_COMBOBOX_VALUE(panel->voice,combobox_assign,GTK_ASSIGN_UNISON);
+        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_UNISON);
         break;
     };
   }
