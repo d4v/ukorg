@@ -39,8 +39,11 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
 
 void on_layering_changed(GtkComboBox *combobox,gpointer user_data) {
   SoundPanel *panel = (SoundPanel*) user_data;
+  VoiceMode mode = VOICE_MODE_SINGLE;
 
-  basics_panel_set(panel,VOICE_MODE_LAYER);
+  if(gtk_combo_box_get_active(combobox) == GTK_LAYER_DOUBLE)
+    mode = VOICE_MODE_LAYER;
+
+  basics_panel_set(panel,mode);
 }
-
 

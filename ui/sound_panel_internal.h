@@ -16,6 +16,7 @@ typedef struct _VoicePanel {
 } VoicePanel;
 
 typedef struct _SoundPanel {
+  VoiceMode   voiceMode;
   BasicsPanel basics;
   VoicePanel  voice[2];
   GtkWidget  *notebook_layers;
@@ -24,5 +25,27 @@ typedef struct _SoundPanel {
 } SoundPanel;
 
 void basics_panel_set(SoundPanel*,VoiceMode);
+
+enum {
+  GTK_VOICE_SYNTH,
+  GTK_VOICE_VOCODER,
+};
+
+enum {
+  GTK_LAYER_SINGLE,
+  GTK_LAYER_DOUBLE,
+};
+
+enum {
+  GTK_ASSIGN_MONO,
+  GTK_ASSIGN_POLY,
+  GTK_ASSIGN_UNISON,
+};
+
+enum {
+  GTK_TRIGGER_SINGLE,
+  GTK_TRIGGER_MULTI,
+};
+
 
 #endif // SOUND_PANEL_INTERNAL_H
