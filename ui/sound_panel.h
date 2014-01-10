@@ -4,7 +4,9 @@
 #include <gtk/gtk.h>
 #include "ProgMsg.h"
 
-void sound_panel_build(GtkBuilder *builder);
-void sound_panel_set(const ProgMsg *progMsg);
+typedef struct _SoundPanel SoundPanel;
+
+SoundPanel * sound_panel_build(GtkBuilder *builder);
+void sound_panel_set(SoundPanel *, const ProgMsg *);
 
 #endif // SOUND_PANEL_H
