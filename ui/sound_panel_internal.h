@@ -15,11 +15,18 @@ typedef struct _VoicePanel {
   GtkWidget *scale_detune;
 } VoicePanel;
 
+typedef struct _CbHandlers {
+  gulong voice_changed;
+  gulong layer_changed;
+} CbHandlers;
+
 typedef struct _SoundPanel {
   VoiceMode   voiceMode;
+  CbHandlers  cbHandlers;
   BasicsPanel basics;
   VoicePanel  voice[2];
   GtkWidget  *notebook_layers;
+  GtkWidget  *label_layer_name[2];
   GtkWidget  *box_timbre[2];
   GtkWidget  *box_params_slot;
 } SoundPanel;

@@ -1,8 +1,8 @@
 #ifndef SOUND_PANEL_CB_H
 #define SOUND_PANEL_CB_H
 
-#include <gtk/gtk.h>
+#include "sound_panel.h"
 
-void on_layering_changed(GtkComboBox *,gpointer);
+void sound_panel_set_cb(SoundPanel*);
 
 #endif // SOUND_PANEL_CB_H
