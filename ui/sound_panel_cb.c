@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
-#include "sound_panel.h"
+#include "basics_panel.h"
 
 void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
   GtkWidget  *dialog;
@@ -50,7 +50,7 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
   else if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layer)) == GTK_LAYER_DOUBLE)
     mode = VOICE_MODE_LAYER;
 
-  basics_panel_set(panel,mode);
+  basics_panel_change_mode(panel,mode);
 
   g_signal_handler_unblock(
       panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
@@ -58,7 +58,7 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
       panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
 }
 
-void sound_panel_set_cb(SoundPanel *panel) {
+void sound_panel_cb_build(SoundPanel *panel) {
   panel->cbHandlers.voice_changed = 
   g_signal_connect(panel->basics.combobox_voice,"changed",
                    (GCallback) on_voice_mode_changed,panel);

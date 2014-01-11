@@ -31,8 +31,6 @@ typedef struct _SoundPanel {
   GtkWidget  *box_params_slot;
 } SoundPanel;
 
-void basics_panel_set(SoundPanel*,VoiceMode);
-
 enum {
   GTK_VOICE_SYNTH,
   GTK_VOICE_VOCODER,

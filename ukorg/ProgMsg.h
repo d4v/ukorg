@@ -147,7 +147,7 @@ typedef struct _ProgMsg {
 
 } ProgMsg;
 
-typedef enum {
+typedef enum _VoiceMode {
   VOICE_MODE_SINGLE  = 0,
   VOICE_MODE_LAYER   = 2,
   VOICE_MODE_VOCODER = 3
