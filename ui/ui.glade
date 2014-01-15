@@ -46,7 +46,7 @@
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkComboBoxText" id="combobox_assign1">
+                          <object class="GtkComboBoxText" id="combobox_assign0">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="entry_text_column">0</property>
@@ -82,7 +82,7 @@
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkComboBoxText" id="combobox_trigger1">
+                          <object class="GtkComboBoxText" id="combobox_trigger0">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="entry_text_column">0</property>
@@ -238,7 +238,7 @@
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkComboBoxText" id="combobox_assign0">
+                          <object class="GtkComboBoxText" id="combobox_assign1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="entry_text_column">0</property>
@@ -274,7 +274,7 @@
                         <property name="can_focus">False</property>
                         <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkComboBoxText" id="combobox_trigger0">
+                          <object class="GtkComboBoxText" id="combobox_trigger1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="entry_text_column">0</property>

@@ -58,7 +58,18 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
       panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
 }
 
+void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
+  GtkWidget *scale_detune = (GtkWidget*) user_data;
+  AssignMode mode = gtk_combo_box_get_active(combobox);
+
+  if(mode == ASSIGN_MODE_UNISON)
+    gtk_widget_set_sensitive(scale_detune,1);
+  else
+    gtk_widget_set_sensitive(scale_detune,0);
+}
+
 void sound_panel_cb_build(SoundPanel *panel) {
+  int layer = 0;
   panel->cbHandlers.voice_changed = 
   g_signal_connect(panel->basics.combobox_voice,"changed",
                    (GCallback) on_voice_mode_changed,panel);
@@ -66,6 +77,12 @@ void sound_panel_cb_build(SoundPanel *panel) {
   panel->cbHandlers.layer_changed = 
   g_signal_connect(panel->basics.combobox_layer,"changed",
                    (GCallback) on_voice_mode_changed,panel);
+
+  for(layer = 0; layer < 2; layer++) {
+    g_signal_connect(panel->voice[layer].combobox_assign,"changed",
+                     (GCallback) on_assign_mode_changed,
+                     panel->voice[layer].scale_detune);
+  }
 }
 
 

@@ -13,6 +13,7 @@ typedef struct _VoicePanel {
   GtkWidget *combobox_assign;
   GtkWidget *combobox_trigger;
   GtkWidget *scale_detune;
+  GtkAdjustment *adjust_detune;
 } VoicePanel;
 
 typedef struct _CbHandlers {
@@ -40,17 +41,5 @@ enum {
   GTK_LAYER_SINGLE,
   GTK_LAYER_DOUBLE,
 };
-
-enum {
-  GTK_ASSIGN_MONO,
-  GTK_ASSIGN_POLY,
-  GTK_ASSIGN_UNISON,
-};
-
-enum {
-  GTK_TRIGGER_SINGLE,
-  GTK_TRIGGER_MULTI,
-};
-
 
 #endif // SOUND_PANEL_INTERNAL_H

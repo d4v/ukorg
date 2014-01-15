@@ -172,6 +172,15 @@ typedef enum {
 AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg);
 
 typedef enum {
+  TRIGGER_MODE_SINGLE,
+  TRIGGER_MODE_MULTI
+} TriggerMode;
+
+TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg);
+
+int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
   ARP_TYPE_UP,
   ARP_TYPE_DOWN,
   ARP_TYPE_ALT1,

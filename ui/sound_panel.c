@@ -56,6 +56,11 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
   GET_BUILDER_OBJ(panel->voice,0,scale_detune);
   GET_BUILDER_OBJ(panel->voice,1,scale_detune);
 
+  panel->voice[0].adjust_detune =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_detune0");
+  panel->voice[1].adjust_detune = 
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_detune1");
+
   for(layer = 0; layer < 2; layer++) {
     ADD_COMBOBOX_ITEM(panel->voice,combobox_assign,"Mono");
     ADD_COMBOBOX_ITEM(panel->voice,combobox_assign,"Poly");
@@ -66,6 +71,9 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
   }
 
   basics_panel_build(panel);
+
+  gtk_widget_set_sensitive(panel->voice[0].scale_detune,0);
+  gtk_widget_set_sensitive(panel->voice[1].scale_detune,0);
 
   sound_panel_cb_build(panel);
 
@@ -80,21 +88,39 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
 
 void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
   VoiceLayer layer = TIMBRE_1;
+  AssignMode assignMode;
+  
 
   basics_panel_change_mode(panel,getVoiceMode(progMsg));
 
   for(layer = 0; layer < 2; layer++) {
-    switch(getAssignMode(layer,progMsg)) {
+    switch(assignMode = getAssignMode(layer,progMsg)) {
       case ASSIGN_MODE_MONO :
-        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_MONO);
+        set_combo_box_value(panel->voice[layer].combobox_assign,ASSIGN_MODE_MONO);
         break;
       case ASSIGN_MODE_POLY :
-        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_POLY);
+        set_combo_box_value(panel->voice[layer].combobox_assign,ASSIGN_MODE_POLY);
         break;
       case ASSIGN_MODE_UNISON :
-        set_combo_box_value(panel->voice[layer].combobox_assign,GTK_ASSIGN_UNISON);
+        set_combo_box_value(panel->voice[layer].combobox_assign,ASSIGN_MODE_UNISON);
         break;
     };
+
+    switch(getTriggerMode(layer,progMsg)) {
+      case TRIGGER_MODE_SINGLE :
+        set_combo_box_value(panel->voice[layer].combobox_trigger,TRIGGER_MODE_SINGLE);
+        break;
+      case TRIGGER_MODE_MULTI :
+        set_combo_box_value(panel->voice[layer].combobox_trigger,TRIGGER_MODE_MULTI);
+        break;
+    }
+
+    gtk_widget_set_sensitive(panel->voice[layer].scale_detune,
+        assignMode == ASSIGN_MODE_UNISON ? 1 : 0);
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->voice[layer].adjust_detune),
+        getUnisonDetune(layer,progMsg));
+
   }
 
 }
