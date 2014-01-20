@@ -1,5 +1,5 @@
-#ifndef PROG_MSG_H
-#define PROG_MSG_H
+#ifndef PROG_MSG_INTERNAL_H
+#define PROG_MSG_INTERNAL_H
 
 typedef struct _SynthParams {
   char midiChannel;
@@ -147,46 +147,4 @@ typedef struct _ProgMsg {
 
 } ProgMsg;
 
-typedef enum _VoiceMode {
-  VOICE_MODE_SINGLE  = 0,
-  VOICE_MODE_LAYER   = 2,
-  VOICE_MODE_VOCODER = 3
-} VoiceMode;
-
-#ifdef __cplusplus
-extern "C"
-#endif
-VoiceMode getVoiceMode(const ProgMsg *msg);
-
-typedef enum {
-  TIMBRE_1,
-  TIMBRE_2
-} VoiceLayer;
-
-typedef enum {
-  ASSIGN_MODE_MONO,
-  ASSIGN_MODE_POLY,
-  ASSIGN_MODE_UNISON
-} AssignMode;
-
-AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg);
-
-typedef enum {
-  TRIGGER_MODE_SINGLE,
-  TRIGGER_MODE_MULTI
-} TriggerMode;
-
-TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg);
-
-int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg);
-
-typedef enum {
-  ARP_TYPE_UP,
-  ARP_TYPE_DOWN,
-  ARP_TYPE_ALT1,
-  ARP_TYPE_ALT2,
-  ARP_TYPE_RND,
-  ARP_TYPE_TRG
-} ArpType;
-
-#endif // PROG_MSG_H
+#endif // PROG_MSG_INTERNAL_H

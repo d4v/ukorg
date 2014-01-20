@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "ProgramDump.h"
-#include "ProgMsg.h"
+#include "ProgMsg_internal.h"
+#include "ukorg_internal.h"
+
 
 using namespace std;
 using namespace ukorg;
@@ -18,10 +20,15 @@ ProgramDump::~ProgramDump() {
 }
 
 void ProgramDump::action() {
-  print();
-  save();
+  const vector<ukorg_listener*> &ukorg_listeners = ukorg_get_listeners();
+  vector<ukorg_listener*>::const_iterator ite;
+  for(ite = ukorg_listeners.begin();
+      ite != ukorg_listeners.end();
+      ite++) {
+    (*ite)->callbacks->on_prog_msg(progMsg,(*ite)->user_data);
+  }
 }
-
+/*
 void ProgramDump::save() {
 
   ofstream ofs;
@@ -79,3 +86,4 @@ void ProgramDump::print() {
 
   cout << "DelaySync : " << delaySync << endl;
 }
+*/

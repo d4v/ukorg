@@ -5,4 +5,6 @@
 *.swp
 taptempo/taptempo
 main
-ukorg/ukorg
+listener
+libukorg.so
+

@@ -1,3 +1,4 @@
+#include "ProgMsg_internal.h"
 #include "ProgMsg.h"
 
 VoiceMode getVoiceMode(const ProgMsg *msg) {
