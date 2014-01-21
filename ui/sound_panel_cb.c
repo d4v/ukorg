@@ -19,7 +19,7 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
   {
     char *filename;
-    static const size_t bufSize = sizeof(ProgMsg);
+    const size_t bufSize = c_ProgMsgSize;
     char buf[bufSize];
 
     filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER (dialog));
@@ -68,6 +68,10 @@ void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
     gtk_widget_set_sensitive(scale_detune,0);
 }
 
+void on_program_emitted() {
+  perror("Heyy!! I received a program!!");
+}
+
 void sound_panel_cb_build(SoundPanel *panel) {
   int layer = 0;
   panel->cbHandlers.voice_changed = 
@@ -83,6 +87,9 @@ void sound_panel_cb_build(SoundPanel *panel) {
                      (GCallback) on_assign_mode_changed,
                      panel->voice[layer].scale_detune);
   }
+
+  g_signal_connect(G_OBJECT(panel->libSignalHook),"program-emitted",on_program_emitted,0);
 }
+
 
 

@@ -3,6 +3,8 @@
 
 typedef struct _ProgMsg ProgMsg;
 
+extern const size_t c_ProgMsgSize;
+
 typedef enum _VoiceMode {
   VOICE_MODE_SINGLE  = 0,
   VOICE_MODE_LAYER   = 2,

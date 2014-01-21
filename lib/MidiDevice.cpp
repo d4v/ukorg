@@ -87,7 +87,8 @@ MidiDevice::MidiDevice() {
   pthread_mutex_init(&mEvQueueMutex,0);
 
   // FIXME, What if several midi devices?
-  mFileDesc = open("/dev/midi1",O_RDWR);
+//  mFileDesc = open("/dev/midi1",O_RDWR);
+  mFileDesc = open("midi1",O_RDWR);
   if(mFileDesc < 0) {
     string msg = string("Failed to open midi device: ") + strerror(errno);
     throw MidiDeviceException(msg);

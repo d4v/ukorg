@@ -1,5 +1,8 @@
+#include <stdlib.h>
 #include "ProgMsg_internal.h"
 #include "ProgMsg.h"
+
+const size_t c_ProgMsgSize = sizeof(ProgMsg);
 
 VoiceMode getVoiceMode(const ProgMsg *msg) {
   int mode = msg->voiceMode & 0x30; // 0011 0000

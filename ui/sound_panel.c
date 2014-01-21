@@ -6,6 +6,7 @@
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
+#include "lib_bindings.h"
 
 #define GET_BUILDER_OBJ_S(panel,obj) \
   panel.obj = (GtkWidget*) gtk_builder_get_object(builder,#obj);
@@ -30,6 +31,7 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
   panel->notebook_layers = gtk_notebook_new();
   panel->label_layer_name[0] = gtk_label_new("Timbre 1"); 
   panel->label_layer_name[1] = gtk_label_new("Timbre 2"); 
+  panel->libSignalHook = gtk_label_new(0);
 
   // Keep a reference on the moving panels so they are not destroyed when
   // temporary detached
@@ -74,6 +76,8 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
 
   gtk_widget_set_sensitive(panel->voice[0].scale_detune,0);
   gtk_widget_set_sensitive(panel->voice[1].scale_detune,0);
+
+  lib_bindings_build(panel);
 
   sound_panel_cb_build(panel);
 

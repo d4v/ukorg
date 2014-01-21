@@ -22,6 +22,7 @@ typedef struct _CbHandlers {
 } CbHandlers;
 
 typedef struct _SoundPanel {
+  GtkWidget  *libSignalHook; //!< Not a real widget, will receive lib signal
   VoiceMode   voiceMode;
   CbHandlers  cbHandlers;
   BasicsPanel basics;
