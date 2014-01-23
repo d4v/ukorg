@@ -16,6 +16,14 @@ typedef struct _VoicePanel {
   GtkAdjustment *adjust_detune;
 } VoicePanel;
 
+typedef struct _PitchPanel {
+  GtkAdjustment *adjust_tune;
+  GtkAdjustment *adjust_transpose;
+  GtkAdjustment *adjust_portamento;
+  GtkAdjustment *adjust_bendrange;
+  GtkAdjustment *adjust_vibratoint;
+} PitchPanel;
+
 typedef struct _CbHandlers {
   gulong voice_changed;
   gulong layer_changed;
@@ -27,6 +35,7 @@ typedef struct _SoundPanel {
   CbHandlers  cbHandlers;
   BasicsPanel basics;
   VoicePanel  voice[2];
+  PitchPanel  pitch[2];
   GtkWidget  *notebook_layers;
   GtkWidget  *label_layer_name[2];
   GtkWidget  *box_timbre[2];

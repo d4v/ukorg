@@ -81,6 +81,31 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
   gtk_widget_set_sensitive(panel->voice[0].scale_detune,0);
   gtk_widget_set_sensitive(panel->voice[1].scale_detune,0);
 
+  panel->pitch[0].adjust_tune =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_tune0");
+  panel->pitch[1].adjust_tune =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_tune1");
+
+  panel->pitch[0].adjust_transpose =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_transpose0");
+  panel->pitch[1].adjust_transpose =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_transpose1");
+
+  panel->pitch[0].adjust_portamento =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_portamento0");
+  panel->pitch[1].adjust_portamento =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_portamento1");
+
+  panel->pitch[0].adjust_bendrange =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_bendrange0");
+  panel->pitch[1].adjust_bendrange =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_bendrange1");
+
+  panel->pitch[0].adjust_vibratoint =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_vibratoint0");
+  panel->pitch[1].adjust_vibratoint =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_vibratoint1");
+
   lib_bindings_build(panel);
 
   sound_panel_cb_build(panel);
@@ -128,6 +153,26 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     gtk_adjustment_set_value(
         GTK_ADJUSTMENT(panel->voice[layer].adjust_detune),
         getUnisonDetune(layer,progMsg));
+
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->pitch[layer].adjust_transpose),
+        getTranspose(layer,progMsg));
+
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->pitch[layer].adjust_tune),
+        getTune(layer,progMsg));
+
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->pitch[layer].adjust_portamento),
+        getPortamento(layer,progMsg));
+
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->pitch[layer].adjust_bendrange),
+        getBendRange(layer,progMsg));
+
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->pitch[layer].adjust_vibratoint),
+        getVibratoInt(layer,progMsg));
 
   }
 

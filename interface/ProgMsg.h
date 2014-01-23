@@ -38,6 +38,16 @@ TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg);
 
 int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg);
 
+int getTranspose(VoiceLayer layer, const ProgMsg *msg);
+
+int getTune(VoiceLayer layer, const ProgMsg *msg);
+
+int getPortamento(VoiceLayer layer, const ProgMsg *msg);
+
+int getBendRange(VoiceLayer layer, const ProgMsg *msg);
+
+int getVibratoInt(VoiceLayer layer, const ProgMsg *msg);
+
 typedef enum {
   ARP_TYPE_UP,
   ARP_TYPE_DOWN,

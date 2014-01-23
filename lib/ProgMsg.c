@@ -14,15 +14,7 @@ VoiceMode getVoiceMode(const ProgMsg *msg) {
 }
 
 TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg) {
-  int mode = 0;
-  switch(layer) {
-    case TIMBRE_1:
-      mode = msg->params.synths.timbre1.assignMode;
-      break;
-    case TIMBRE_2:
-      mode = msg->params.synths.timbre2.assignMode;
-      break;
-  }
+  int mode = msg->params.synths.timbre[layer].assignMode;
 
   mode >>= 3;
   mode &= 0x01; // 0000 0001
@@ -30,14 +22,7 @@ TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg) {
 }
 
 AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
-  int mode = 0;
-  switch(layer) {
-    case TIMBRE_1:
-      mode = msg->params.synths.timbre1.assignMode;
-      break;
-    case TIMBRE_2:
-      mode = msg->params.synths.timbre2.assignMode;
-  }
+  int mode = msg->params.synths.timbre[layer].assignMode;
 
   mode >>= 6;
   mode &= 0x03; // 0000 0011
@@ -45,12 +30,26 @@ AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
 }
 
 int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg) {
-  switch(layer) {
-    case TIMBRE_1:
-    default:
-      return msg->params.synths.timbre1.unisonDetune;
-    case TIMBRE_2:
-      return msg->params.synths.timbre2.unisonDetune;
-  }
+  return msg->params.synths.timbre[layer].unisonDetune;
+}
+
+int getTranspose(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].pitchBendTranspose - 64);
+}
+
+int getTune(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].pitchTune - 64);
+}
+
+int getPortamento(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].portamentoTime;
+}
+
+int getBendRange(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].pitchBendRange - 64);
+}
+
+int getVibratoInt(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].pitchVibratoInt - 64);
 }
 

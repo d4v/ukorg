@@ -87,8 +87,7 @@ typedef struct _SynthParams {
 } SynthParams;
 
 typedef struct _LayeredParams {
-  SynthParams timbre1;
-  SynthParams timbre2;
+  SynthParams timbre[2];
 } LayeredParams;
 
 typedef struct _VocoderParams {
