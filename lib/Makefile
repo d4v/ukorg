@@ -11,7 +11,9 @@ OBJS=MidiDevice.o \
 		 ProgMsg.o \
 		 ukorg.o
 
-CPPFLAGS=-g -Wall -fpic \
+DEPENDS=$(OBJS:%.o=%.d)
+
+CPPFLAGS=-g -Wall -fpic -MMD \
 				 -I$p/interface
 
 LDFLAGS=-pthread
@@ -22,5 +24,7 @@ $(LIB): $(OBJS)
 	$(CXX) -shared -o $@ $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS)
 
 clean:
-	rm -f $(LIB) *.o core
+	rm -f $(LIB) *.o *.d core
+
+-include $(DEPENDS)
 

@@ -80,9 +80,10 @@ typedef struct _SynthParams {
   char patch3Int;
   char patch4SrcDst;
   char patch4Int;
-  
+
+
   // 52 ~ 107 dummy
-  char pad2[46];
+  char pad2[56];
 } SynthParams;
 
 typedef struct _LayeredParams {

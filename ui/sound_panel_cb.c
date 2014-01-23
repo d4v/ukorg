@@ -67,24 +67,25 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
 }
 
 void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
-  GtkWidget *scale_detune = (GtkWidget*) user_data;
+  VoicePanel *voice_panel = (VoicePanel*) user_data;
   AssignMode mode = gtk_combo_box_get_active(combobox);
 
   if(mode == ASSIGN_MODE_UNISON)
-    gtk_widget_set_sensitive(scale_detune,1);
+    gtk_widget_set_sensitive(voice_panel->scale_detune,1);
   else
-    gtk_widget_set_sensitive(scale_detune,0);
+    gtk_widget_set_sensitive(voice_panel->scale_detune,0);
+
+  if(mode == ASSIGN_MODE_POLY)
+    gtk_widget_set_sensitive(voice_panel->combobox_trigger,0);
+  else
+    gtk_widget_set_sensitive(voice_panel->combobox_trigger,1);
 }
 
 void on_program_emitted(gpointer arg1,gpointer arg2,gpointer arg3) {
   SoundPanel *panel = (SoundPanel*) arg2;
   ProgMsg    *msg   = (ProgMsg*) arg3;
 
-  freeze_signals(panel);
-
   sound_panel_set(panel,msg);
-
-  unfreeze_signals(panel);
 }
 
 void sound_panel_cb_build(SoundPanel *panel) {
@@ -100,7 +101,7 @@ void sound_panel_cb_build(SoundPanel *panel) {
   for(layer = 0; layer < 2; layer++) {
     g_signal_connect(panel->voice[layer].combobox_assign,"changed",
                      (GCallback) on_assign_mode_changed,
-                     panel->voice[layer].scale_detune);
+                     &panel->voice[layer]);
   }
 
   g_signal_connect(G_OBJECT(panel->libSignalHook),

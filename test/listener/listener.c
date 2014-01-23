@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include "ukorg.h"
+#include "ProgMsg_internal.h"
 
 void on_tick(void *user_data) {
   printf("Tick! user_data : %d", *((int*) user_data));
 }
 
 void on_prog_msg(const ProgMsg *msg,void *user_data) {
-  fprintf(stderr,"ProgMsg! user_data : %d", *((int*) user_data));
+  printf("ProgMsg! user_data : %d\n", *((int*) user_data));
+  printf("assign 1: %x, ", (unsigned char) msg->params.synths.timbre1.assignMode);
+  printf("assign 2: %x\n", (unsigned int) msg->params.synths.timbre2.assignMode);
 }
 
 int main(int argc, char *argv[]) {
