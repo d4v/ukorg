@@ -22,8 +22,8 @@ SysExEvent::SysExEvent() :
 }
 
 void SysExEvent::addData(const unsigned char c) {
-  cerr << "SysExEvent::addData " << dec << mDataCount 
-                                 << " : " << hex << (int) c << endl;
+//  cerr << "SysExEvent::addData " << dec << mDataCount 
+//                                 << " : " << hex << (int) c << endl;
   mBuf[mBufIdx++] = c;
   if(mBufIdx == 8) {
     SysExCodec::decode(mBuf,mSysExMsg + mSysExMsgIdx,&mSysExMsgIdx);

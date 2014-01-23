@@ -53,10 +53,10 @@ void SysExCodec::decode(unsigned char *buf_in,
     buf_out[idx-1] = buf_in[idx] | (firstByte & firstBit);
   } 
 
-  cout << "MIDI :";
-  dumpChunk(buf_in,8);
-  cout << "Data :           ";
-  dumpChunk(buf_out,7);
+//  cout << "MIDI :";
+//  dumpChunk(buf_in,8);
+//  cout << "Data :           ";
+//  dumpChunk(buf_out,7);
 
   *out_idx += 7;
 }

@@ -4,12 +4,12 @@
   <object class="GtkAction" id="action1">
     <signal name="activate" handler="cb_show_open_dialog" swapped="no"/>
   </object>
-  <object class="GtkAdjustment" id="adjust_detune0">
+  <object class="GtkAdjustment" id="adjust_detune1">
     <property name="upper">99</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjust_detune1">
+  <object class="GtkAdjustment" id="adjust_detune0">
     <property name="upper">99</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
@@ -19,7 +19,7 @@
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkFrame" id="Voice2">
+      <object class="GtkFrame" id="Voice0">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
@@ -593,7 +593,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="Voice">
+          <object class="GtkFrame" id="Basics">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "ProgMsg_internal.h"
 #include "ProgMsg.h"
@@ -5,8 +6,11 @@
 const size_t c_ProgMsgSize = sizeof(ProgMsg);
 
 VoiceMode getVoiceMode(const ProgMsg *msg) {
-  int mode = msg->voiceMode & 0x30; // 0011 0000
-  return (VoiceMode) (mode >> 4);
+  int mode = msg->voiceMode;
+
+  mode >>= 4;
+  mode &= 0x03; // 0000 0011
+  return (VoiceMode) mode;
 }
 
 TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg) {
@@ -20,8 +24,9 @@ TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg) {
       break;
   }
 
-  mode &= 0x08; // 0000 1000
-  return (TriggerMode) (mode >> 3);
+  mode >>= 3;
+  mode &= 0x01; // 0000 0001
+  return (TriggerMode) (mode);
 }
 
 AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
@@ -34,8 +39,9 @@ AssignMode getAssignMode(VoiceLayer layer,const ProgMsg *msg) {
       mode = msg->params.synths.timbre2.assignMode;
   }
 
-  mode &= 0xB0; // 1100 0000
-  return (AssignMode) (mode >> 6);
+  mode >>= 6;
+  mode &= 0x03; // 0000 0011
+  return (AssignMode) mode;
 }
 
 int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg) {

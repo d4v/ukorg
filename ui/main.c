@@ -10,6 +10,8 @@ int main (int argc, char ** argv)
   GError      *  err       = NULL;
   SoundPanel  *  panel     = NULL;
 
+  gdk_threads_init();
+
   gtk_init (& argc, & argv);
 
   builder = gtk_builder_new ();

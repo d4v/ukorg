@@ -38,6 +38,7 @@ void basics_panel_set(SoundPanel *panel) {
       set_combo_box_value(panel->basics.combobox_voice,GTK_VOICE_SYNTH);
       set_combo_box_value(panel->basics.combobox_layer,GTK_LAYER_DOUBLE);
       gtk_widget_set_sensitive(panel->basics.combobox_layer,1);
+
       break;
     case VOICE_MODE_VOCODER :
       set_combo_box_value(panel->basics.combobox_voice,GTK_VOICE_VOCODER);
@@ -45,7 +46,6 @@ void basics_panel_set(SoundPanel *panel) {
       set_combo_box_value(panel->basics.combobox_layer,-1);
       break;
   }
-  gtk_widget_show_all(panel->box_params_slot);
 }
 
 void basics_panel_build(SoundPanel *panel) {

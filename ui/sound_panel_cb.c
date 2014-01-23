@@ -36,14 +36,25 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
 
 }
 
-void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
-  SoundPanel *panel = (SoundPanel*) user_data;
-  VoiceMode mode = VOICE_MODE_SINGLE;
-
+void freeze_signals(SoundPanel *panel) {
   g_signal_handler_block(
       panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
   g_signal_handler_block(
       panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
+}
+
+void unfreeze_signals(SoundPanel *panel) {
+  g_signal_handler_unblock(
+      panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
+  g_signal_handler_unblock(
+      panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
+}
+
+void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
+  SoundPanel *panel = (SoundPanel*) user_data;
+  VoiceMode mode = VOICE_MODE_SINGLE;
+
+  freeze_signals(panel);
 
   if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice)) == GTK_VOICE_VOCODER)
     mode = VOICE_MODE_VOCODER;
@@ -52,10 +63,7 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
 
   basics_panel_change_mode(panel,mode);
 
-  g_signal_handler_unblock(
-      panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
-  g_signal_handler_unblock(
-      panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
+  unfreeze_signals(panel);
 }
 
 void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
@@ -68,8 +76,15 @@ void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
     gtk_widget_set_sensitive(scale_detune,0);
 }
 
-void on_program_emitted() {
-  perror("Heyy!! I received a program!!");
+void on_program_emitted(gpointer arg1,gpointer arg2,gpointer arg3) {
+  SoundPanel *panel = (SoundPanel*) arg2;
+  ProgMsg    *msg   = (ProgMsg*) arg3;
+
+  freeze_signals(panel);
+
+  sound_panel_set(panel,msg);
+
+  unfreeze_signals(panel);
 }
 
 void sound_panel_cb_build(SoundPanel *panel) {
@@ -88,7 +103,9 @@ void sound_panel_cb_build(SoundPanel *panel) {
                      panel->voice[layer].scale_detune);
   }
 
-  g_signal_connect(G_OBJECT(panel->libSignalHook),"program-emitted",on_program_emitted,0);
+  g_signal_connect(G_OBJECT(panel->libSignalHook),
+                   "program-emitted",
+                   (GCallback) on_program_emitted,0);
 }
 
 

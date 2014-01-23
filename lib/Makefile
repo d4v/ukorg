@@ -16,9 +16,11 @@ CPPFLAGS=-g -Wall -fpic \
 
 LDFLAGS=-pthread
 
-libukorg.so: $(OBJS)
+LIB=libukorg.so
+
+$(LIB): $(OBJS)
 	$(CXX) -shared -o $@ $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS)
 
 clean:
-	rm -f ukorg *.o core
+	rm -f $(LIB) *.o core
 
