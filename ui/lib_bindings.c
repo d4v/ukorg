@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include "ukorg.h"
 #include "sound_panel_internal.h"
@@ -28,20 +29,35 @@ void build_signals() {
 void on_tick(void *user_data) {
 }
 
-void on_prog_msg(const ProgMsg *progMsg,void *user_data) {
-  SoundPanel *panel = (SoundPanel*) user_data;
+typedef struct {
+    SoundPanel *panel;
+    ProgMsg    *progMsg;
+} ProgMsgIdleArgs;
+
+gboolean on_prog_msg_idle(gpointer user_data) {
+  ProgMsgIdleArgs *args = (ProgMsgIdleArgs*) user_data;
   int ret = 0;
 
-  gdk_threads_enter();
-
-  g_signal_emit(panel->libSignalHook,
+  g_signal_emit(args->panel->libSignalHook,
                 ukorg_signals[SIG_ONE_PROG],
                 0,
-                (gpointer) panel,
-                (gpointer) progMsg,
+                (gpointer) args->panel,
+                (gpointer) args->progMsg,
                 &ret);
- 
-  gdk_threads_leave();
+
+  free(args);
+
+  //! This is a one shot idle function
+  return FALSE;
+}
+
+void on_prog_msg(const ProgMsg *progMsg,void *user_data) {
+  SoundPanel *panel = (SoundPanel*) user_data;
+  ProgMsgIdleArgs *args = (ProgMsgIdleArgs*) malloc(sizeof(ProgMsgIdleArgs));
+  args->panel   = panel;
+  args->progMsg = (ProgMsg *) progMsg;
+
+  g_idle_add(on_prog_msg_idle,args);
 }
 
 static struct ukorg_callbacks cbs = {
