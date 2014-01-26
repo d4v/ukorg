@@ -40,14 +40,14 @@ void freeze_signals(SoundPanel *panel) {
   g_signal_handler_block(
       panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
   g_signal_handler_block(
-      panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
+      panel->basics.combobox_layering,panel->cbHandlers.layer_changed);
 }
 
 void unfreeze_signals(SoundPanel *panel) {
   g_signal_handler_unblock(
       panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
   g_signal_handler_unblock(
-      panel->basics.combobox_layer,panel->cbHandlers.layer_changed);
+      panel->basics.combobox_layering,panel->cbHandlers.layer_changed);
 }
 
 void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
@@ -58,10 +58,10 @@ void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
 
   if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice)) == GTK_VOICE_VOCODER)
     mode = VOICE_MODE_VOCODER;
-  else if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layer)) == GTK_LAYER_DOUBLE)
+  else if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layering)) == GTK_LAYER_DOUBLE)
     mode = VOICE_MODE_LAYER;
 
-  basics_panel_change_mode(panel,mode);
+  basics_panel_change_mode(&panel->basics,mode);
 
   unfreeze_signals(panel);
 }
@@ -95,7 +95,7 @@ void sound_panel_cb_build(SoundPanel *panel) {
                    (GCallback) on_voice_mode_changed,panel);
 
   panel->cbHandlers.layer_changed = 
-  g_signal_connect(panel->basics.combobox_layer,"changed",
+  g_signal_connect(panel->basics.combobox_layering,"changed",
                    (GCallback) on_voice_mode_changed,panel);
 
   for(layer = 0; layer < 2; layer++) {

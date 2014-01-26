@@ -5,8 +5,13 @@
 #include "ProgMsg.h"
 
 typedef struct _BasicsPanel {
+  VoiceMode  voiceMode;
   GtkWidget *combobox_voice;
-  GtkWidget *combobox_layer;
+  GtkWidget *combobox_layering;
+  GtkWidget *notebook_layers;
+  GtkWidget *label_layer_name[2];
+  GtkWidget *box_timbre[2];
+  GtkWidget *box_params_slot;
 } BasicsPanel;
 
 typedef struct _VoicePanel {
@@ -31,25 +36,10 @@ typedef struct _CbHandlers {
 
 typedef struct _SoundPanel {
   GtkWidget  *libSignalHook; //!< Not a real widget, will receive lib signal
-  VoiceMode   voiceMode;
   CbHandlers  cbHandlers;
   BasicsPanel basics;
   VoicePanel  voice[2];
   PitchPanel  pitch[2];
-  GtkWidget  *notebook_layers;
-  GtkWidget  *label_layer_name[2];
-  GtkWidget  *box_timbre[2];
-  GtkWidget  *box_params_slot;
 } SoundPanel;
-
-enum {
-  GTK_VOICE_SYNTH,
-  GTK_VOICE_VOCODER,
-};
-
-enum {
-  GTK_LAYER_SINGLE,
-  GTK_LAYER_DOUBLE,
-};
 
 #endif // SOUND_PANEL_INTERNAL_H
