@@ -2,19 +2,10 @@
 #define BASICS_PANEL_H
 
 typedef struct _BasicsPanel BasicsPanel;
-typedef enum   _VoiceMode  VoiceMode;
+typedef struct _ProgMsg ProgMsg;
 
-void basics_panel_build(GtkBuilder *,BasicsPanel *);
-void basics_panel_change_mode(BasicsPanel *, VoiceMode newMode);
-
-enum {
-  GTK_VOICE_SYNTH,
-  GTK_VOICE_VOCODER,
-};
-
-enum {
-  GTK_LAYER_SINGLE,
-  GTK_LAYER_DOUBLE,
-};
+BasicsPanel * basics_panel_build(GtkBuilder *);
+void basics_panel_cb_build(BasicsPanel *);
+void basics_panel_set(BasicsPanel *panel,const ProgMsg *);
 
 #endif // BASICS_PANEL_H

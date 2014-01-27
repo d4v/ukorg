@@ -36,36 +36,6 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
 
 }
 
-void freeze_signals(SoundPanel *panel) {
-  g_signal_handler_block(
-      panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
-  g_signal_handler_block(
-      panel->basics.combobox_layering,panel->cbHandlers.layer_changed);
-}
-
-void unfreeze_signals(SoundPanel *panel) {
-  g_signal_handler_unblock(
-      panel->basics.combobox_voice,panel->cbHandlers.voice_changed);
-  g_signal_handler_unblock(
-      panel->basics.combobox_layering,panel->cbHandlers.layer_changed);
-}
-
-void on_voice_mode_changed(GtkComboBox *combobox,gpointer user_data) {
-  SoundPanel *panel = (SoundPanel*) user_data;
-  VoiceMode mode = VOICE_MODE_SINGLE;
-
-  freeze_signals(panel);
-
-  if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_voice)) == GTK_VOICE_VOCODER)
-    mode = VOICE_MODE_VOCODER;
-  else if(gtk_combo_box_get_active(GTK_COMBO_BOX(panel->basics.combobox_layering)) == GTK_LAYER_DOUBLE)
-    mode = VOICE_MODE_LAYER;
-
-  basics_panel_change_mode(&panel->basics,mode);
-
-  unfreeze_signals(panel);
-}
-
 void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
   VoicePanel *voice_panel = (VoicePanel*) user_data;
   AssignMode mode = gtk_combo_box_get_active(combobox);
@@ -90,13 +60,8 @@ void on_program_emitted(gpointer arg1,gpointer arg2,gpointer arg3) {
 
 void sound_panel_cb_build(SoundPanel *panel) {
   int layer = 0;
-  panel->cbHandlers.voice_changed = 
-  g_signal_connect(panel->basics.combobox_voice,"changed",
-                   (GCallback) on_voice_mode_changed,panel);
 
-  panel->cbHandlers.layer_changed = 
-  g_signal_connect(panel->basics.combobox_layering,"changed",
-                   (GCallback) on_voice_mode_changed,panel);
+  basics_panel_cb_build(panel->basics);
 
   for(layer = 0; layer < 2; layer++) {
     g_signal_connect(panel->voice[layer].combobox_assign,"changed",

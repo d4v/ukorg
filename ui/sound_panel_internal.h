@@ -4,15 +4,7 @@
 #include <gtk/gtk.h>
 #include "ProgMsg.h"
 
-typedef struct _BasicsPanel {
-  VoiceMode  voiceMode;
-  GtkWidget *combobox_voice;
-  GtkWidget *combobox_layering;
-  GtkWidget *notebook_layers;
-  GtkWidget *label_layer_name[2];
-  GtkWidget *box_timbre[2];
-  GtkWidget *box_params_slot;
-} BasicsPanel;
+typedef struct _BasicsPanel BasicsPanel;
 
 typedef struct _VoicePanel {
   GtkWidget *combobox_assign;
@@ -29,15 +21,9 @@ typedef struct _PitchPanel {
   GtkAdjustment *adjust_vibratoint;
 } PitchPanel;
 
-typedef struct _CbHandlers {
-  gulong voice_changed;
-  gulong layer_changed;
-} CbHandlers;
-
 typedef struct _SoundPanel {
   GtkWidget  *libSignalHook; //!< Not a real widget, will receive lib signal
-  CbHandlers  cbHandlers;
-  BasicsPanel basics;
+  BasicsPanel *basics;
   VoicePanel  voice[2];
   PitchPanel  pitch[2];
 } SoundPanel;

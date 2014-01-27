@@ -8,6 +8,8 @@ CFLAGS=-g -Wall -MMD
 OBJS=sound_panel.o \
 		 sound_panel_cb.o \
 		 basics_panel.o \
+		 voice_panel.o \
+		 pitch_panel.o \
 		 lib_bindings.o
 
 DEPENDS=$(OBJS:%.o=%.d)
