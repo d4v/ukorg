@@ -3,6 +3,7 @@
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
 #include "basics_panel.h"
+#include "voice_panel.h"
 
 void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
   GtkWidget  *dialog;
@@ -36,21 +37,6 @@ void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
 
 }
 
-void on_assign_mode_changed(GtkComboBox *combobox,gpointer user_data) {
-  VoicePanel *voice_panel = (VoicePanel*) user_data;
-  AssignMode mode = gtk_combo_box_get_active(combobox);
-
-  if(mode == ASSIGN_MODE_UNISON)
-    gtk_widget_set_sensitive(voice_panel->scale_detune,1);
-  else
-    gtk_widget_set_sensitive(voice_panel->scale_detune,0);
-
-  if(mode == ASSIGN_MODE_POLY)
-    gtk_widget_set_sensitive(voice_panel->combobox_trigger,0);
-  else
-    gtk_widget_set_sensitive(voice_panel->combobox_trigger,1);
-}
-
 void on_program_emitted(gpointer arg1,gpointer arg2,gpointer arg3) {
   SoundPanel *panel = (SoundPanel*) arg2;
   ProgMsg    *msg   = (ProgMsg*) arg3;
@@ -64,9 +50,7 @@ void sound_panel_cb_build(SoundPanel *panel) {
   basics_panel_cb_build(panel->basics);
 
   for(layer = 0; layer < 2; layer++) {
-    g_signal_connect(panel->voice[layer].combobox_assign,"changed",
-                     (GCallback) on_assign_mode_changed,
-                     &panel->voice[layer]);
+    voice_panel_cb_build(panel->voice[layer]);
   }
 
   g_signal_connect(G_OBJECT(panel->libSignalHook),

@@ -5,6 +5,8 @@
 
 typedef struct _VoicePanel VoicePanel;
 
-void voice_panel_build(GtkBuilder *,VoiceLayer,VoicePanel *);
+VoicePanel * voice_panel_build(GtkBuilder *,VoiceLayer);
+void voice_panel_cb_build(VoicePanel *);
+void voice_panel_set(VoicePanel *,const ProgMsg *);
 
 #endif // VOICE_PANEL_H
