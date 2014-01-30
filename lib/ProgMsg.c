@@ -53,3 +53,28 @@ int getVibratoInt(VoiceLayer layer, const ProgMsg *msg) {
   return (msg->params.synths.timbre[layer].pitchVibratoInt - 64);
 }
 
+int getOsc1Level(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].osc1Level;
+}
+
+WaveType getOsc1WaveType(VoiceLayer layer, const ProgMsg *msg) {
+  return (WaveType) msg->params.synths.timbre[layer].osc1Wave;
+}
+
+int getOsc1Ctrl1(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].osc1WaveformCtrl1;
+}
+
+int getOsc1Ctrl2(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].osc1WaveformCtrl2;
+}
+
+DwgsWave getOsc1DwgsWave(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].osc1DgwsWave;
+}
+
+WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg) {
+  return (WaveType) msg->params.synths.timbre[layer].osc2Wave;
+}
+
+

@@ -10,7 +10,7 @@ typedef struct _PitchPanel {
   GtkAdjustment *adjust_vibratoint;
 } PitchPanel;
 
-void pitch_panel_build_timbre_1(GtkBuilder *builder, PitchPanel *panel) {
+void pitch_panel_build_timbre_1(PitchPanel *panel, GtkBuilder *builder) {
   panel->layer = TIMBRE_1;
 
   panel->adjust_tune =
@@ -25,7 +25,7 @@ void pitch_panel_build_timbre_1(GtkBuilder *builder, PitchPanel *panel) {
     (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_vibratoint0");
 }
 
-void pitch_panel_build_timbre_2(GtkBuilder *builder, PitchPanel *panel) {
+void pitch_panel_build_timbre_2(PitchPanel *panel, GtkBuilder *builder) {
   panel->layer = TIMBRE_2;
 
   panel->adjust_tune =
@@ -44,10 +44,10 @@ PitchPanel * pitch_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   PitchPanel *panel = (PitchPanel*) malloc(sizeof(PitchPanel));
   switch (layer) {
     case TIMBRE_1:
-      pitch_panel_build_timbre_1(builder,panel);
+      pitch_panel_build_timbre_1(panel,builder);
       break;
     case TIMBRE_2:
-      pitch_panel_build_timbre_2(builder,panel);
+      pitch_panel_build_timbre_2(panel,builder);
       break;
   }
   return panel;
