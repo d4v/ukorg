@@ -73,8 +73,30 @@ DwgsWave getOsc1DwgsWave(VoiceLayer layer, const ProgMsg *msg) {
   return msg->params.synths.timbre[layer].osc1DgwsWave;
 }
 
-WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg) {
-  return (WaveType) msg->params.synths.timbre[layer].osc2Wave;
+int getOsc2Level(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].osc2Level;
 }
 
+WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg) {
+  int wave = msg->params.synths.timbre[layer].osc2Wave;
+
+  wave &= 0x03; // 0000 0011
+  return (WaveType) wave;
+}
+
+ModType getOsc2ModType(VoiceLayer layer, const ProgMsg *msg) {
+  int mod = msg->params.synths.timbre[layer].osc2Wave;
+
+  mod >>= 4;
+  mod &= 0x03; // 0000 0011
+  return (ModType) mod;
+}
+
+int getOsc2Semitone(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].osc2Semitone - 64);
+}
+
+int getOsc2Tune(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].osc2Tune - 64);
+}
 

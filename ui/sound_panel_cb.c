@@ -4,6 +4,7 @@
 #include "sound_panel_cb.h"
 #include "basics_panel.h"
 #include "voice_panel.h"
+#include "osc1_panel.h"
 
 void cb_show_open_dialog(GtkWidget * p_wid, gpointer p_data) {
   GtkWidget  *dialog;

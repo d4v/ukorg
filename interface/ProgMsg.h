@@ -85,7 +85,23 @@ typedef enum {
 
 DwgsWave getOsc1DwgsWave(VoiceLayer,const ProgMsg *msg);
 
+WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
+  MOD_OFF,MOD_RING,MOD_RINGSYNC
+} ModType;
+
+ModType getOsc2ModType(VoiceLayer layer, const ProgMsg *msg);
+
+int getOsc2Semitone(VoiceLayer layer, const ProgMsg *msg);
+
+int getOsc2Tune(VoiceLayer layer, const ProgMsg *msg);
+
+
+int getOsc2Level(VoiceLayer layer, const ProgMsg *msg);
 int getOsc1Level(VoiceLayer layer, const ProgMsg *msg);
+
+
 
 WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg);
 
