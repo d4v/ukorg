@@ -31,7 +31,7 @@ typedef struct _SynthParams {
   // 16 ~ 18 MIXER
   char osc1Level;
   char osc2Level;
-  char noise;
+  char noiseLevel;
 
 
   // 19 ~ 24 FILTER

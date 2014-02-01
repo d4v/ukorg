@@ -97,13 +97,9 @@ int getOsc2Semitone(VoiceLayer layer, const ProgMsg *msg);
 
 int getOsc2Tune(VoiceLayer layer, const ProgMsg *msg);
 
-
-int getOsc2Level(VoiceLayer layer, const ProgMsg *msg);
 int getOsc1Level(VoiceLayer layer, const ProgMsg *msg);
-
-
-
-WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg);
+int getOsc2Level(VoiceLayer layer, const ProgMsg *msg);
+int getNoiseLevel(VoiceLayer layer, const ProgMsg *msg);
 
 typedef enum {
   ARP_TYPE_UP,

@@ -7,6 +7,7 @@
 #include "pitch_panel.h"
 #include "osc1_panel.h"
 #include "osc2_panel.h"
+#include "mixer_panel.h"
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
@@ -45,7 +46,7 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     pitch_panel_set(panel->pitch[layer],progMsg);
     osc1_panel_set(panel->osc1[layer],progMsg);
     osc2_panel_set(panel->osc2[layer],progMsg);
+    mixer_panel_set(panel->mixer[layer],progMsg);
   }
 }
-
 
