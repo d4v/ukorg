@@ -104,3 +104,23 @@ int getNoiseLevel(VoiceLayer layer, const ProgMsg *msg) {
   return msg->params.synths.timbre[layer].noiseLevel;
 }
 
+FilterType getFilterType(VoiceLayer layer, const ProgMsg *msg) {
+  return (FilterType) msg->params.synths.timbre[layer].filterType;
+}
+
+int getFilterCutoff(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].filterCutoff;
+}
+
+int getFilterResonance(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].filterResonance;
+}
+
+int getFilterEgInt(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].filterEg1Int - 64);
+}
+
+int getFilterKeyTrack(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].filterKbdTrack - 64);
+}
+

@@ -33,7 +33,6 @@ typedef struct _SynthParams {
   char osc2Level;
   char noiseLevel;
 
-
   // 19 ~ 24 FILTER
   char filterType;
   char filterCutoff;
@@ -80,7 +79,6 @@ typedef struct _SynthParams {
   char patch3Int;
   char patch4SrcDst;
   char patch4Int;
-
 
   // 52 ~ 107 dummy
   char pad2[56];

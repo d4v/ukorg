@@ -8,6 +8,7 @@
 #include "osc1_panel.h"
 #include "osc2_panel.h"
 #include "mixer_panel.h"
+#include "filter_panel.h"
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
@@ -23,10 +24,12 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
   panel->basics = basics_panel_build(builder);
 
   for(layer = 0; layer < 2; layer++) {
-    panel->voice[layer] = voice_panel_build(builder,layer);
-    panel->pitch[layer] = pitch_panel_build(builder,layer);
-    panel->osc1[layer]  = osc1_panel_build(builder,layer);
-    panel->osc2[layer]  = osc2_panel_build(builder,layer);
+    panel->voice[layer]  = voice_panel_build(builder,layer);
+    panel->pitch[layer]  = pitch_panel_build(builder,layer);
+    panel->osc1[layer]   = osc1_panel_build(builder,layer);
+    panel->osc2[layer]   = osc2_panel_build(builder,layer);
+    panel->mixer[layer]  = mixer_panel_build(builder,layer);
+    panel->filter[layer] = filter_panel_build(builder,layer);
   }
 
   lib_bindings_build(panel);
@@ -47,6 +50,7 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     osc1_panel_set(panel->osc1[layer],progMsg);
     osc2_panel_set(panel->osc2[layer],progMsg);
     mixer_panel_set(panel->mixer[layer],progMsg);
+    filter_panel_set(panel->filter[layer],progMsg);
   }
 }
 

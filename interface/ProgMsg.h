@@ -102,6 +102,17 @@ int getOsc2Level(VoiceLayer layer, const ProgMsg *msg);
 int getNoiseLevel(VoiceLayer layer, const ProgMsg *msg);
 
 typedef enum {
+  FILTER_24LPF,FILTER_12LPF,
+  FILTER_12BPF,FILTER_12HPF
+} FilterType;
+
+FilterType getFilterType(VoiceLayer layer, const ProgMsg *msg);
+int getFilterCutoff(VoiceLayer layer, const ProgMsg *msg);
+int getFilterResonance(VoiceLayer layer, const ProgMsg *msg);
+int getFilterEgInt(VoiceLayer layer, const ProgMsg *msg);
+int getFilterKeyTrack(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
   ARP_TYPE_UP,
   ARP_TYPE_DOWN,
   ARP_TYPE_ALT1,

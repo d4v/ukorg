@@ -10,6 +10,7 @@ typedef struct _PitchPanel  PitchPanel;
 typedef struct _Osc1Panel   Osc1Panel;
 typedef struct _Osc2Panel   Osc2Panel;
 typedef struct _MixerPanel  MixerPanel;
+typedef struct _FilterPanel FilterPanel;
 
 typedef struct _SoundPanel {
   GtkWidget   *libSignalHook; //!< Not a real widget, will receive lib signal
@@ -19,6 +20,7 @@ typedef struct _SoundPanel {
   Osc1Panel   *osc1[2];
   Osc2Panel   *osc2[2];
   MixerPanel  *mixer[2];
+  FilterPanel *filter[2];
 } SoundPanel;
 
 #endif // SOUND_PANEL_INTERNAL_H
