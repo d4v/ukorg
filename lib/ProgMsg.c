@@ -124,3 +124,27 @@ int getFilterKeyTrack(VoiceLayer layer, const ProgMsg *msg) {
   return (msg->params.synths.timbre[layer].filterKbdTrack - 64);
 }
 
+int getFilterEgAttack(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg1Attack;
+}
+
+int getFilterEgDecay(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg1Decay;
+}
+
+int getFilterEgSustain(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg1Sustain;
+}
+
+int getFilterEgRelease(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg1Release;
+}
+
+EgResetStatus getFilterEgReset(VoiceLayer layer, const ProgMsg *msg) {
+  int status = msg->params.synths.timbre[layer].assignMode;
+
+  status >>= 4;
+  status &= 0x01; // 0000 0001
+  return (EgResetStatus) (status);
+}
+

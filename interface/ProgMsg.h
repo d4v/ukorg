@@ -5,21 +5,35 @@ typedef struct _ProgMsg ProgMsg;
 
 extern const size_t c_ProgMsgSize;
 
+//
+// Basics panel
+//
+
 typedef enum _VoiceMode {
   VOICE_MODE_SINGLE  = 0,
   VOICE_MODE_LAYER   = 2,
   VOICE_MODE_VOCODER = 3
 } VoiceMode;
 
-#ifdef __cplusplus
-extern "C"
-#endif
 VoiceMode getVoiceMode(const ProgMsg *msg);
 
 typedef enum {
   TIMBRE_1,
   TIMBRE_2
 } VoiceLayer;
+
+typedef enum {
+  ARP_TYPE_UP,
+  ARP_TYPE_DOWN,
+  ARP_TYPE_ALT1,
+  ARP_TYPE_ALT2,
+  ARP_TYPE_RND,
+  ARP_TYPE_TRG
+} ArpType;
+
+//
+// Voice Panel
+//
 
 typedef enum {
   ASSIGN_MODE_MONO,
@@ -35,18 +49,21 @@ typedef enum {
 } TriggerMode;
 
 TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg);
-
 int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg);
 
+//
+// Pitch Panel
+//
+
 int getTranspose(VoiceLayer layer, const ProgMsg *msg);
-
 int getTune(VoiceLayer layer, const ProgMsg *msg);
-
 int getPortamento(VoiceLayer layer, const ProgMsg *msg);
-
 int getBendRange(VoiceLayer layer, const ProgMsg *msg);
-
 int getVibratoInt(VoiceLayer layer, const ProgMsg *msg);
+
+//
+//Oscillator 1
+//
 
 typedef enum {
   WAV_SAW,
@@ -85,6 +102,10 @@ typedef enum {
 
 DwgsWave getOsc1DwgsWave(VoiceLayer,const ProgMsg *msg);
 
+//
+// Oscillator 2
+//
+
 WaveType getOsc2WaveType(VoiceLayer layer, const ProgMsg *msg);
 
 typedef enum {
@@ -92,14 +113,20 @@ typedef enum {
 } ModType;
 
 ModType getOsc2ModType(VoiceLayer layer, const ProgMsg *msg);
-
 int getOsc2Semitone(VoiceLayer layer, const ProgMsg *msg);
-
 int getOsc2Tune(VoiceLayer layer, const ProgMsg *msg);
+
+//
+// Mixer
+//
 
 int getOsc1Level(VoiceLayer layer, const ProgMsg *msg);
 int getOsc2Level(VoiceLayer layer, const ProgMsg *msg);
 int getNoiseLevel(VoiceLayer layer, const ProgMsg *msg);
+
+//
+// Filter
+//
 
 typedef enum {
   FILTER_24LPF,FILTER_12LPF,
@@ -112,13 +139,22 @@ int getFilterResonance(VoiceLayer layer, const ProgMsg *msg);
 int getFilterEgInt(VoiceLayer layer, const ProgMsg *msg);
 int getFilterKeyTrack(VoiceLayer layer, const ProgMsg *msg);
 
+//
+// Filter Envelope Generator
+//
+
+int getFilterEgAttack(VoiceLayer layer, const ProgMsg *msg);
+int getFilterEgDecay(VoiceLayer layer, const ProgMsg *msg);
+int getFilterEgSustain(VoiceLayer layer, const ProgMsg *msg);
+int getFilterEgRelease(VoiceLayer layer, const ProgMsg *msg);
+
 typedef enum {
-  ARP_TYPE_UP,
-  ARP_TYPE_DOWN,
-  ARP_TYPE_ALT1,
-  ARP_TYPE_ALT2,
-  ARP_TYPE_RND,
-  ARP_TYPE_TRG
-} ArpType;
+  EG_RESET_OFF,EG_RESET_ON
+} EgResetStatus;
+
+EgResetStatus getFilterEgReset(VoiceLayer layer, const ProgMsg *msg);
+
+
+
 
 #endif // PROG_MSG_H
