@@ -154,7 +154,28 @@ typedef enum {
 
 EgResetStatus getFilterEgReset(VoiceLayer layer, const ProgMsg *msg);
 
+//
+// Amplifier
+//
 
+int getAmpLevel(VoiceLayer layer, const ProgMsg *msg);
+int getAmpPanPot(VoiceLayer layer, const ProgMsg *msg);
 
+typedef enum {
+  AMP_DIST_OFF,AMP_DIST_ON
+} AmpDistStatus;
+
+AmpDistStatus getAmpDistortion(VoiceLayer layer, const ProgMsg *msg);
+int getAmpKbdTrack(VoiceLayer layer, const ProgMsg *msg);
+
+//
+// Amplifier Envelope Generator
+//
+
+int getAmpEgAttack(VoiceLayer layer, const ProgMsg *msg);
+int getAmpEgDecay(VoiceLayer layer, const ProgMsg *msg);
+int getAmpEgSustain(VoiceLayer layer, const ProgMsg *msg);
+int getAmpEgRelease(VoiceLayer layer, const ProgMsg *msg);
+EgResetStatus getAmpEgReset(VoiceLayer layer, const ProgMsg *msg);
 
 #endif // PROG_MSG_H

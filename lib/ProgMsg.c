@@ -145,6 +145,49 @@ EgResetStatus getFilterEgReset(VoiceLayer layer, const ProgMsg *msg) {
 
   status >>= 4;
   status &= 0x01; // 0000 0001
-  return (EgResetStatus) (status);
+  return (EgResetStatus) status;
+}
+
+int getAmpLevel(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].ampLevel;
+}
+
+int getAmpPanPot(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].ampPanpot - 64);
+}
+
+AmpDistStatus getAmpDistortion(VoiceLayer layer, const ProgMsg *msg) {
+  int status = msg->params.synths.timbre[layer].ampDistortion;
+
+  status &= 0x01; // 0000 0001
+  return (AmpDistStatus) status;
+}
+
+int getAmpKbdTrack(VoiceLayer layer, const ProgMsg *msg) {
+  return (msg->params.synths.timbre[layer].ampKeyboardTrack - 64);
+}
+
+int getAmpEgAttack(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg2Attack;
+}
+
+int getAmpEgDecay(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg2Decay;
+}
+
+int getAmpEgSustain(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg2Sustain;
+}
+
+int getAmpEgRelease(VoiceLayer layer, const ProgMsg *msg) {
+  return msg->params.synths.timbre[layer].eg2Release;
+}
+
+EgResetStatus getAmpEgReset(VoiceLayer layer, const ProgMsg *msg) {
+  int status = msg->params.synths.timbre[layer].assignMode;
+
+  status >>= 5;
+  status &= 0x01;
+  return (EgResetStatus) status;
 }
 
