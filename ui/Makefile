@@ -17,6 +17,7 @@ OBJS=sound_panel.o \
 		 filtereg_panel.o \
 		 amp_panel.o \
 		 ampeg_panel.o \
+		 lfo1_panel.o \
 		 lib_bindings.o
 
 DEPENDS=$(OBJS:%.o=%.d)

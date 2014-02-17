@@ -12,6 +12,7 @@
 #include "filtereg_panel.h"
 #include "amp_panel.h"
 #include "ampeg_panel.h"
+#include "lfo1_panel.h"
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
@@ -36,6 +37,8 @@ SoundPanel *sound_panel_build(GtkBuilder *builder) {
     panel->filterEg[layer] = filtereg_panel_build(builder,layer);
     panel->amp[layer]      = amp_panel_build(builder,layer);
     panel->ampEg[layer]    = ampeg_panel_build(builder,layer);
+    panel->lfo1[layer]     = lfo1_panel_build(builder,layer);
+//    panel->lfo2[layer]     = lfo2_panel_build(builder,layer);
   }
 
   lib_bindings_build(panel);
@@ -60,6 +63,7 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     filtereg_panel_set(panel->filterEg[layer],progMsg);
     amp_panel_set(panel->amp[layer],progMsg);
     ampeg_panel_set(panel->ampEg[layer],progMsg);
+    lfo1_panel_set(panel->lfo1[layer],progMsg);
   }
 }
 

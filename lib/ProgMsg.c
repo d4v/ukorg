@@ -191,3 +191,71 @@ EgResetStatus getAmpEgReset(VoiceLayer layer, const ProgMsg *msg) {
   return (EgResetStatus) status;
 }
 
+Lfo1WaveType getLfo1WaveType(VoiceLayer layer, const ProgMsg *msg){
+  int type = msg->params.synths.timbre[layer].lfo1Wave;
+
+  type &= 0x03; // 0000 0011
+  return (Lfo1WaveType) type;
+}
+
+KeySync getLfo1KeySync(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo1Wave;
+
+  sync >>= 4;
+  sync &= 0x03;
+  return (KeySync) sync;
+}
+
+TempoSyncStatus getLfo1TempoSync(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo1Sync;
+
+  sync >>= 7;
+  sync &= 0x01;
+  return (TempoSyncStatus) sync;
+}
+
+int getLfo1Frequency(VoiceLayer layer, const ProgMsg *msg){
+  return msg->params.synths.timbre[layer].lfo1Freq;
+}
+
+SyncNote getLfo1SyncNote(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo1Sync;
+
+  sync &= 0x1F; // 0001 1111
+  return (SyncNote) sync;
+}
+
+Lfo2WaveType getLfo2WaveType(VoiceLayer layer, const ProgMsg *msg){
+  int type = msg->params.synths.timbre[layer].lfo2Wave;
+
+  type &= 0x03; // 0000 0011
+  return (Lfo2WaveType) type;
+}
+
+KeySync getLfo2KeySync(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo2Wave;
+
+  sync >>= 4;
+  sync &= 0x03;
+  return (KeySync) sync;
+}
+
+TempoSyncStatus getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo2Sync;
+
+  sync >>= 7;
+  sync &= 0x01;
+  return (TempoSyncStatus) sync;
+}
+
+int getLfo2Frequency(VoiceLayer layer, const ProgMsg *msg){
+  return msg->params.synths.timbre[layer].lfo2Freq;
+}
+
+SyncNote getLfo2SyncNote(VoiceLayer layer, const ProgMsg *msg){
+  int sync = msg->params.synths.timbre[layer].lfo2Sync;
+
+  sync &= 0x1F; // 0001 1111
+  return (SyncNote) sync;
+}
+

@@ -6,7 +6,7 @@ typedef struct _ProgMsg ProgMsg;
 extern const size_t c_ProgMsgSize;
 
 //
-// Basics panel
+// Basics
 //
 
 typedef enum _VoiceMode {
@@ -32,7 +32,7 @@ typedef enum {
 } ArpType;
 
 //
-// Voice Panel
+// Voice
 //
 
 typedef enum {
@@ -52,7 +52,7 @@ TriggerMode getTriggerMode(VoiceLayer layer, const ProgMsg *msg);
 int getUnisonDetune(VoiceLayer layer, const ProgMsg *msg);
 
 //
-// Pitch Panel
+// Pitch
 //
 
 int getTranspose(VoiceLayer layer, const ProgMsg *msg);
@@ -62,7 +62,7 @@ int getBendRange(VoiceLayer layer, const ProgMsg *msg);
 int getVibratoInt(VoiceLayer layer, const ProgMsg *msg);
 
 //
-//Oscillator 1
+// Oscillator 1
 //
 
 typedef enum {
@@ -177,5 +177,54 @@ int getAmpEgDecay(VoiceLayer layer, const ProgMsg *msg);
 int getAmpEgSustain(VoiceLayer layer, const ProgMsg *msg);
 int getAmpEgRelease(VoiceLayer layer, const ProgMsg *msg);
 EgResetStatus getAmpEgReset(VoiceLayer layer, const ProgMsg *msg);
+
+//
+// LFO 1
+//
+
+typedef enum {
+  LFO1_SAW,LFO1_SQUARE1,
+  LFO1_TRIANGLE,LFO1_SH
+} Lfo1WaveType;
+
+Lfo1WaveType getLfo1WaveType(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
+  KSYNC_OFF,KSYNC_TIMBRE,KSYNC_VOICE
+} KeySync;
+
+KeySync getLfo1KeySync(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
+  TSYNC_OFF,TSYNC_ON
+} TempoSync;
+
+TempoSync getLfo1TempoSync(VoiceLayer layer, const ProgMsg *msg);
+
+int getLfo1Frequency(VoiceLayer layer, const ProgMsg *msg);
+
+typedef enum {
+  SYNC_1_1 ,SYNC_3_4 ,SYNC_2_3 ,SYNC_1_2 ,
+  SYNC_3_8 ,SYNC_1_3 ,SYNC_1_4 ,SYNC_3_16,
+  SYNC_1_6 ,SYNC_1_8 ,SYNC_3_32,SYNC_1_12,
+  SYNC_1_16,SYNC_1_24,SYNC_1_32
+} SyncNote;
+
+SyncNote getLfo1SyncNote(VoiceLayer layer, const ProgMsg *msg);
+
+//
+// LFO 2
+//
+
+typedef enum {
+  LFO2_SAW,LFO2_SQUARE2,
+  LFO2_SINE,LFO2_SH
+} Lfo2WaveType;
+
+Lfo2WaveType getLfo2WaveType(VoiceLayer layer, const ProgMsg *msg);
+KeySync getLfo2KeySync(VoiceLayer layer, const ProgMsg *msg);
+TempoSync getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg);
+int getLfo2Frequency(VoiceLayer layer, const ProgMsg *msg);
+SyncNote getLfo2SyncNote(VoiceLayer layer, const ProgMsg *msg);
 
 #endif // PROG_MSG_H
