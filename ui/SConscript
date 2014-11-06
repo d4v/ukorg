@@ -1,0 +1,9 @@
+Import('env')
+
+env = env.Clone()
+
+env.Append(CPPPATH=['#interface'])
+env.Append(LIBPATH='#build/lib',LIBS='ukorg')
+env.ParseConfig('pkg-config --cflags --libs gtk+-x11-3.0 gmodule-2.0')
+
+env.Program('main',Glob('*.c*'))

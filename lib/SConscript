@@ -1,0 +1,7 @@
+Import('env')
+
+env = env.Clone()
+
+env.Append(CPPPATH=['#interface'])
+
+env.SharedLibrary('ukorg',Glob('*.c*'))

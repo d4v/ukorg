@@ -10,13 +10,11 @@ int main (int argc, char ** argv)
   GError      *  err       = NULL;
   SoundPanel  *  panel     = NULL;
 
-  gdk_threads_init();
-
   gtk_init (& argc, & argv);
 
   builder = gtk_builder_new ();
 
-  gtk_builder_add_from_file (builder, "ui.glade", & err);
+  gtk_builder_add_from_file (builder, "ui/ui.glade", & err);
 
   if(err != NULL) {
     g_error ("%s", err->message);

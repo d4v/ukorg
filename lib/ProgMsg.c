@@ -206,12 +206,12 @@ KeySync getLfo1KeySync(VoiceLayer layer, const ProgMsg *msg){
   return (KeySync) sync;
 }
 
-TempoSyncStatus getLfo1TempoSync(VoiceLayer layer, const ProgMsg *msg){
+TempoSync getLfo1TempoSync(VoiceLayer layer, const ProgMsg *msg){
   int sync = msg->params.synths.timbre[layer].lfo1Sync;
 
   sync >>= 7;
   sync &= 0x01;
-  return (TempoSyncStatus) sync;
+  return (TempoSync) sync;
 }
 
 int getLfo1Frequency(VoiceLayer layer, const ProgMsg *msg){
@@ -240,12 +240,12 @@ KeySync getLfo2KeySync(VoiceLayer layer, const ProgMsg *msg){
   return (KeySync) sync;
 }
 
-TempoSyncStatus getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg){
+TempoSync getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg){
   int sync = msg->params.synths.timbre[layer].lfo2Sync;
 
   sync >>= 7;
   sync &= 0x01;
-  return (TempoSyncStatus) sync;
+  return (TempoSync) sync;
 }
 
 int getLfo2Frequency(VoiceLayer layer, const ProgMsg *msg){

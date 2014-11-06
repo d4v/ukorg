@@ -1,10 +1,7 @@
-*.o
-*.d
 .cproject
 .project
 *.swp
 taptempo/taptempo
-main
 listener
-libukorg.so
-
+build
+.sconsign.dblite
