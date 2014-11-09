@@ -14,32 +14,36 @@
 #include "ampeg_panel.h"
 #include "lfo1_panel.h"
 #include "lfo2_panel.h"
+#include "patch_panel.h"
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
 #include "sound_panel_cb.h"
 #include "lib_bindings.h"
 
-SoundPanel *sound_panel_build(GtkBuilder *builder) {
-
+SoundPanel * sound_panel_build(
+    GtkBuilder *basics,GtkBuilder *voice1, GtkBuilder *voice2) {
+  
   int layer = 0;
+  GtkBuilder *builder[] = {voice1,voice2};
   SoundPanel *panel = (SoundPanel*) malloc(sizeof(SoundPanel));
   
   panel->libSignalHook = gtk_label_new(0);
 
-  panel->basics = basics_panel_build(builder);
+  panel->basics = basics_panel_build(basics,voice1,voice2);
 
   for(layer = 0; layer < 2; layer++) {
-    panel->voice[layer]    = voice_panel_build(builder,layer);
-    panel->pitch[layer]    = pitch_panel_build(builder,layer);
-    panel->osc1[layer]     = osc1_panel_build(builder,layer);
-    panel->osc2[layer]     = osc2_panel_build(builder,layer);
-    panel->mixer[layer]    = mixer_panel_build(builder,layer);
-    panel->filter[layer]   = filter_panel_build(builder,layer);
-    panel->filterEg[layer] = filtereg_panel_build(builder,layer);
-    panel->amp[layer]      = amp_panel_build(builder,layer);
-    panel->ampEg[layer]    = ampeg_panel_build(builder,layer);
-    panel->lfo1[layer]     = lfo1_panel_build(builder,layer);
-    panel->lfo2[layer]     = lfo2_panel_build(builder,layer);
+    panel->voice[layer]    = voice_panel_build(builder[layer],layer);
+    panel->pitch[layer]    = pitch_panel_build(builder[layer],layer);
+    panel->osc1[layer]     = osc1_panel_build(builder[layer],layer);
+    panel->osc2[layer]     = osc2_panel_build(builder[layer],layer);
+    panel->mixer[layer]    = mixer_panel_build(builder[layer],layer);
+    panel->filter[layer]   = filter_panel_build(builder[layer],layer);
+    panel->filterEg[layer] = filtereg_panel_build(builder[layer],layer);
+    panel->amp[layer]      = amp_panel_build(builder[layer],layer);
+    panel->ampEg[layer]    = ampeg_panel_build(builder[layer],layer);
+    panel->lfo1[layer]     = lfo1_panel_build(builder[layer],layer);
+    panel->lfo2[layer]     = lfo2_panel_build(builder[layer],layer);
+    panel->patch[layer]    = patch_panel_build(builder[layer],layer);
   }
 
   lib_bindings_build(panel);
@@ -66,6 +70,7 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     ampeg_panel_set(panel->ampEg[layer],progMsg);
     lfo1_panel_set(panel->lfo1[layer],progMsg);
     lfo2_panel_set(panel->lfo2[layer],progMsg);
+    patch_panel_set(panel->patch[layer],progMsg);
   }
 }
 

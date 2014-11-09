@@ -30,13 +30,14 @@ enum {
   GTK_LAYER_DOUBLE,
 };
 
-BasicsPanel * basics_panel_build(GtkBuilder *builder) {
+BasicsPanel * basics_panel_build(
+    GtkBuilder *basics,GtkBuilder *voice1, GtkBuilder *voice2) {
 
   BasicsPanel *panel = (BasicsPanel*) malloc(sizeof(BasicsPanel));
 
-  panel->box_params_slot = (GtkWidget*) gtk_builder_get_object(builder,"box_params_slot"); 
-  panel->box_timbre[0] =   (GtkWidget*) gtk_builder_get_object(builder,"box_timbre0");
-  panel->box_timbre[1] =   (GtkWidget*) gtk_builder_get_object(builder,"box_timbre1");
+  panel->box_params_slot = (GtkWidget*) gtk_builder_get_object(basics,"box_params_slot"); 
+  panel->box_timbre[0] =   (GtkWidget*) gtk_builder_get_object(voice1,"box_timbre");
+  panel->box_timbre[1] =   (GtkWidget*) gtk_builder_get_object(voice2,"box_timbre");
   panel->notebook_layers = gtk_notebook_new();
   panel->label_layer_name[0] = gtk_label_new("Timbre 1"); 
   panel->label_layer_name[1] = gtk_label_new("Timbre 2"); 
@@ -54,14 +55,14 @@ BasicsPanel * basics_panel_build(GtkBuilder *builder) {
   g_object_ref(panel->label_layer_name[1]);
 
   panel->combobox_voice = 
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_voice");
+    (GtkWidget*) gtk_builder_get_object(basics,"combobox_voice");
   gtk_combo_box_text_append_text(
       GTK_COMBO_BOX_TEXT(panel->combobox_voice),"Synthesizer");
   gtk_combo_box_text_append_text(
       GTK_COMBO_BOX_TEXT(panel->combobox_voice),"Vocoder");
 
   panel->combobox_layering = 
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_layering");
+    (GtkWidget*) gtk_builder_get_object(basics,"combobox_layering");
   gtk_combo_box_text_append_text(
       GTK_COMBO_BOX_TEXT(panel->combobox_layering),"Single");
   gtk_combo_box_text_append_text(

@@ -11,49 +11,21 @@ typedef struct _AmpEgPanel {
   GtkWidget     *switch_reset;
 } AmpEgPanel;
 
-void ampeg_panel_build_timbre_1(AmpEgPanel *panel, GtkBuilder *builder) {
-
-  panel->adjust_attack  =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegattack0");
-  panel->adjust_decay   =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegdecay0");
-  panel->adjust_sustain =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegsustain0");
-  panel->adjust_release =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegrelease0");
-  panel->switch_reset   =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampegreset0");
-
-}
-
-void ampeg_panel_build_timbre_2(AmpEgPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_attack  =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegattack1");
-  panel->adjust_decay   =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegdecay1");
-  panel->adjust_sustain =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegsustain1");
-  panel->adjust_release =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegrelease1");
-  panel->switch_reset   =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampegreset1");
-
-}
-
 AmpEgPanel * ampeg_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   AmpEgPanel *panel = (AmpEgPanel*) malloc(sizeof(AmpEgPanel));
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      ampeg_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      ampeg_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->adjust_attack  =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegattack");
+  panel->adjust_decay   =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegdecay");
+  panel->adjust_sustain =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegsustain");
+  panel->adjust_release =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampegrelease");
+  panel->switch_reset   =
+    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampegreset");
 
   return panel;
 }

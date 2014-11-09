@@ -11,36 +11,6 @@ typedef struct _FilterPanel {
   GtkAdjustment *adjust_keyTrack;
 } FilterPanel;
 
-void filter_panel_build_timbre_1(FilterPanel *panel, GtkBuilder *builder) {
-  
-  panel->combobox_type =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_filtertype0");
-  panel->adjust_cutoff =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filtercutoff0");
-  panel->adjust_resonance =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterresonance0");
-  panel->adjust_egInt =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregint0");
-  panel->adjust_keyTrack =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterkeytrack0");
-
-}
-
-void filter_panel_build_timbre_2(FilterPanel *panel, GtkBuilder *builder) {
-  
-  panel->combobox_type =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_filtertype1");
-  panel->adjust_cutoff =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filtercutoff1");
-  panel->adjust_resonance =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterresonance1");
-  panel->adjust_egInt =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregint1");
-  panel->adjust_keyTrack =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterkeytrack1");
-
-}
-
 FilterPanel * filter_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   FilterPanel *panel = (FilterPanel*) malloc(sizeof(FilterPanel));
   static const char *filter_types[] = {
@@ -51,14 +21,16 @@ FilterPanel * filter_panel_build(GtkBuilder *builder,VoiceLayer layer) {
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      filter_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      filter_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->combobox_type =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_filtertype");
+  panel->adjust_cutoff =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filtercutoff");
+  panel->adjust_resonance =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterresonance");
+  panel->adjust_egInt =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregint");
+  panel->adjust_keyTrack =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filterkeytrack");
 
   for(idx = 0; idx < filter_types_nb; idx++) {
     gtk_combo_box_text_append_text(

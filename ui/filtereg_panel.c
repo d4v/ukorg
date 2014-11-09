@@ -11,49 +11,21 @@ typedef struct _FilterEgPanel {
   GtkWidget     *switch_reset;
 } FilterEgPanel;
 
-void filtereg_panel_build_timbre_1(FilterEgPanel *panel, GtkBuilder *builder) {
-
-  panel->adjust_attack  =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregattack0");
-  panel->adjust_decay   =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregdecay0");
-  panel->adjust_sustain =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregsustain0");
-  panel->adjust_release =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregrelease0");
-  panel->switch_reset   =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_filteregreset0");
-
-}
-
-void filtereg_panel_build_timbre_2(FilterEgPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_attack  =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregattack1");
-  panel->adjust_decay   =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregdecay1");
-  panel->adjust_sustain =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregsustain1");
-  panel->adjust_release =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregrelease1");
-  panel->switch_reset   =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_filteregreset1");
-
-}
-
 FilterEgPanel * filtereg_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   FilterEgPanel *panel = (FilterEgPanel*) malloc(sizeof(FilterEgPanel));
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      filtereg_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      filtereg_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->adjust_attack  =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregattack");
+  panel->adjust_decay   =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregdecay");
+  panel->adjust_sustain =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregsustain");
+  panel->adjust_release =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_filteregrelease");
+  panel->switch_reset   =
+    (GtkWidget*) gtk_builder_get_object(builder,"switch_filteregreset");
 
   return panel;
 }

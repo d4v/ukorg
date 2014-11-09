@@ -227,4 +227,41 @@ TempoSync getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg);
 int getLfo2Frequency(VoiceLayer layer, const ProgMsg *msg);
 SyncNote getLfo2SyncNote(VoiceLayer layer, const ProgMsg *msg);
 
+//
+// Patch
+//
+
+typedef enum {
+  PATCH_SRC_FILTER_EG,
+  PATCH_SRC_AMP_EG,
+  PATCH_SRC_LFO1,
+  PATCH_SRC_LFO2,
+  PATCH_SRC_VELOCITY,
+  PATCH_SRC_KBD_TRACK,
+  PATCH_SRC_PITCH_BEND,
+  PATCH_SRC_MOD_WHEEL
+} PatchSrcType;
+
+typedef enum {
+  PATCH_DST_PITCH,
+  PATCH_DST_OSC2_TUNE,
+  PATCH_DST_OSC1_CTRL1,
+  PATCH_DST_NOISE_LEVEL,
+  PATCH_DST_CUTOFF,
+  PATCH_DST_AMP,
+  PATCH_DST_PAN,
+  PATCH_DST_LFO2_FREQ
+} PatchDstType;
+
+typedef enum {
+  PATCH_ID_1 = 0,
+  PATCH_ID_2,
+  PATCH_ID_3,
+  PATCH_ID_4
+} PatchIdType;
+
+PatchSrcType getPatchSrc(VoiceLayer, PatchIdType, const ProgMsg *);
+PatchDstType getPatchDst(VoiceLayer, PatchIdType, const ProgMsg *);
+int getPatchModInt(VoiceLayer, PatchIdType, const ProgMsg *);
+
 #endif // PROG_MSG_H

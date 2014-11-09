@@ -9,41 +9,17 @@ typedef struct _MixerPanel {
   GtkAdjustment *adjust_noiseLevel;
 } MixerPanel;
 
-void mixer_panel_build_timbre_1(MixerPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_osc1Level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level0");
-  panel->adjust_osc2Level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level0");
-  panel->adjust_noiseLevel =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_noiselevel0");
-
-}
-
-void mixer_panel_build_timbre_2(MixerPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_osc1Level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level1");
-  panel->adjust_osc2Level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level1");
-  panel->adjust_noiseLevel =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_noiselevel1");
-
-}
-
 MixerPanel * mixer_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   MixerPanel *panel = (MixerPanel*) malloc(sizeof(MixerPanel));
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      mixer_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      mixer_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->adjust_osc1Level =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level");
+  panel->adjust_osc2Level =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level");
+  panel->adjust_noiseLevel =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_noiselevel");
 
   return panel;
 }

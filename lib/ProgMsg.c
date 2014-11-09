@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ProgMsg_internal.h"
 #include "ProgMsg.h"
 
@@ -257,5 +258,71 @@ SyncNote getLfo2SyncNote(VoiceLayer layer, const ProgMsg *msg){
 
   sync &= 0x1F; // 0001 1111
   return (SyncNote) sync;
+}
+
+int getPatchSrcDst(
+    VoiceLayer layer,PatchIdType id,const ProgMsg *msg) {
+  int srcdst = 0;
+
+  switch (id) {
+    case PATCH_ID_1:
+      srcdst = msg->params.synths.timbre[layer].patch1SrcDst;
+      break;
+    case PATCH_ID_2:
+      srcdst = msg->params.synths.timbre[layer].patch2SrcDst;
+      break;
+    case PATCH_ID_3:
+      srcdst = msg->params.synths.timbre[layer].patch3SrcDst;
+      break;
+    case PATCH_ID_4:
+      srcdst = msg->params.synths.timbre[layer].patch4SrcDst;
+      break;
+    default:
+      assert(0);
+      break;
+  }
+
+  return srcdst;
+}
+
+PatchSrcType getPatchSrc(
+    VoiceLayer layer, PatchIdType id, const ProgMsg *msg) {
+  int src = getPatchSrcDst(layer,id,msg);
+
+  src &= 0x0F; // 0000 1111
+  return (PatchSrcType) src;
+}
+
+PatchDstType getPatchDst(
+    VoiceLayer layer, PatchIdType id, const ProgMsg * msg) {
+  int dst = getPatchSrcDst(layer,id,msg);
+
+  dst >>= 4;
+  dst &= 0x0F; // 0000 1111
+  return (PatchDstType) dst;
+}
+
+int getPatchModInt(VoiceLayer layer, PatchIdType id, const ProgMsg  *msg) {
+  int modInt = 0;
+
+  switch (id) {
+    case PATCH_ID_1:
+      modInt = msg->params.synths.timbre[layer].patch1Int;
+      break;
+    case PATCH_ID_2:
+      modInt = msg->params.synths.timbre[layer].patch2Int;
+      break;
+    case PATCH_ID_3:
+      modInt = msg->params.synths.timbre[layer].patch3Int;
+      break;
+    case PATCH_ID_4:
+      modInt = msg->params.synths.timbre[layer].patch4Int;
+      break;
+    default:
+      assert(0);
+      break;
+  }
+
+  return (modInt - 64);
 }
 

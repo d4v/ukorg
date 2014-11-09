@@ -12,36 +12,6 @@ typedef struct _Osc2Panel {
   GtkAdjustment *adjust_tune;
 } Osc2Panel;
 
-void osc2_panel_build_timbre_1(Osc2Panel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level0");
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2wave0");
-  panel->combobox_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2mod0");
-  panel->adjust_semitone =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2semitone0");
-  panel->adjust_tune =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2tune0");
-
-}
-
-void osc2_panel_build_timbre_2(Osc2Panel *panel, GtkBuilder *builder) {
-
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level1");
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2wave1");
-  panel->combobox_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2mod1");
-  panel->adjust_semitone =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2semitone1");
-  panel->adjust_tune =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2tune1");
-
-}
-
 Osc2Panel * osc2_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   Osc2Panel *panel = (Osc2Panel*) malloc(sizeof(Osc2Panel));
   int idx = 0;
@@ -54,14 +24,16 @@ Osc2Panel * osc2_panel_build(GtkBuilder *builder,VoiceLayer layer) {
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      osc2_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      osc2_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->adjust_level =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2level");
+  panel->combobox_wave =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2wave");
+  panel->combobox_mod =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc2mod");
+  panel->adjust_semitone =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2semitone");
+  panel->adjust_tune =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc2tune");
 
   for(idx = 0; idx < wave_types_nb; idx++) {
     gtk_combo_box_text_append_text(

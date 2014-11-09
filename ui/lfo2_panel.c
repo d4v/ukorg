@@ -15,44 +15,6 @@ typedef struct _Lfo2Panel {
   GtkWidget     *combobox_syncNote;
 } Lfo2Panel;
 
-void lfo2_panel_build_timbre_1(Lfo2Panel *panel, GtkBuilder *builder) {
-
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2wave0");
-  panel->combobox_keySync =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2ksync0");
-  panel->combobox_tempoSync =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2tsync0");
-  panel->label_slot4 =
-    (GtkWidget*) gtk_builder_get_object(builder,"label_lfo2slot4_0");
-  panel->align_slot4 =
-    (GtkWidget*) gtk_builder_get_object(builder,"align_lfo2slot4_0");
-  panel->scale_frequency =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_lfo2freq0");
-  panel->adjust_frequency =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_lfo2freq0");
-
-}
-
-void lfo2_panel_build_timbre_2(Lfo2Panel *panel, GtkBuilder *builder) {
-  
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2wave1");
-  panel->combobox_keySync =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2ksync1");
-  panel->combobox_tempoSync =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2tsync1");
-  panel->label_slot4 =
-    (GtkWidget*) gtk_builder_get_object(builder,"label_lfo2slot4_1");
-  panel->align_slot4 =
-    (GtkWidget*) gtk_builder_get_object(builder,"align_lfo2slot4_1");
-  panel->scale_frequency =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_lfo2freq1");
-  panel->adjust_frequency =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_lfo2freq1");
-
-}
-
 Lfo2Panel * lfo2_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   Lfo2Panel *panel = (Lfo2Panel*) malloc(sizeof(Lfo2Panel));
   int idx = 0;
@@ -78,14 +40,20 @@ Lfo2Panel * lfo2_panel_build(GtkBuilder *builder,VoiceLayer layer) {
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      lfo2_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      lfo2_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->combobox_wave =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2wave");
+  panel->combobox_keySync =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2ksync");
+  panel->combobox_tempoSync =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo2tsync");
+  panel->label_slot4 =
+    (GtkWidget*) gtk_builder_get_object(builder,"label_lfo2slot4");
+  panel->align_slot4 =
+    (GtkWidget*) gtk_builder_get_object(builder,"align_lfo2slot4");
+  panel->scale_frequency =
+    (GtkWidget*) gtk_builder_get_object(builder,"scale_lfo2freq");
+  panel->adjust_frequency =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_lfo2freq");
 
   panel->combobox_syncNote =
     (GtkWidget*) gtk_combo_box_text_new();

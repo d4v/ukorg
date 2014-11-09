@@ -10,46 +10,20 @@ typedef struct _AmpPanel {
   GtkAdjustment *adjust_kbdTrack;
 } AmpPanel;
 
-void amp_panel_build_timbre_1(AmpPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amplevel0");
-  panel->adjust_pan =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amppan0");
-  panel->switch_distortion =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampdist0");
-  panel->adjust_kbdTrack =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampkbdtrack0");
-
-}
-
-void amp_panel_build_timbre_2(AmpPanel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amplevel1");
-  panel->adjust_pan =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amppan1");
-  panel->switch_distortion =
-    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampdist1");
-  panel->adjust_kbdTrack =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampkbdtrack1");
-
-}
-
 AmpPanel * amp_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   AmpPanel *panel = (AmpPanel*) malloc(sizeof(AmpPanel));
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      amp_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      amp_panel_build_timbre_2(panel,builder);
-      break;
-  }
-
+  panel->adjust_level =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amplevel");
+  panel->adjust_pan =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_amppan");
+  panel->switch_distortion =
+    (GtkWidget*) gtk_builder_get_object(builder,"switch_ampdist");
+  panel->adjust_kbdTrack =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_ampkbdtrack");
+  
   return panel;
 }
 

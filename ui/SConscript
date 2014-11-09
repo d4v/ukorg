@@ -7,3 +7,4 @@ env.Append(LIBPATH='#build/lib',LIBS='ukorg')
 env.ParseConfig('pkg-config --cflags --libs gtk+-x11-3.0 gmodule-2.0')
 
 env.Program('main',Glob('*.c*'))
+#env.Program('main',['main.c','basics_panel.c','lib_bindings.c','sound_panel.c','voice_panel.c','sound_panel_cb.c'])

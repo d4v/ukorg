@@ -10,56 +10,37 @@ typedef struct _VoicePanel {
   GtkAdjustment *adjust_detune;
 } VoicePanel;
 
-void voice_panel_build_timbre_1(GtkBuilder *builder,VoicePanel *panel) {
-  panel->layer = TIMBRE_1;
+VoicePanel * voice_panel_build(GtkBuilder *builder,VoiceLayer layer) {
 
-  panel->combobox_assign =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_assign0");
-  panel->combobox_trigger =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_trigger0");
-  panel->scale_detune =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_detune0");
-  panel->adjust_detune =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_detune0");
-}
-
-void voice_panel_build_timbre_2(GtkBuilder *builder,VoicePanel *panel) {
-  panel->layer = TIMBRE_2;
-
-  panel->combobox_assign =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_assign1");
-  panel->combobox_trigger =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_trigger1");
-  panel->scale_detune =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_detune1");
-  panel->adjust_detune =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_detune1");
-}
-
-VoicePanel * voice_panel_build(GtkBuilder *builder,
-                               VoiceLayer layer) {
   VoicePanel *panel = (VoicePanel *) malloc(sizeof(VoicePanel));
 
-  switch (layer) {
-    case TIMBRE_1:
-      voice_panel_build_timbre_1(builder,panel);
-      break;
-    case TIMBRE_2:
-      voice_panel_build_timbre_2(builder,panel);
-      break;
+  static const char * assign_types[] = {"Mono","Poly","Unison"};
+  static const int assign_types_nb = 3;
+  static const char * trigger_types[] = {"Single","Multi"};
+  static const int trigger_types_nb = 2;
+  int idx = 0;
+    
+
+  panel->layer = layer;
+
+  panel->combobox_assign =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_assign");
+  panel->combobox_trigger =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_trigger");
+  panel->scale_detune =
+    (GtkWidget*) gtk_builder_get_object(builder,"scale_detune");
+  panel->adjust_detune =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_detune");
+
+  for(idx = 0; idx < assign_types_nb; idx++) {
+    gtk_combo_box_text_append_text(
+        GTK_COMBO_BOX_TEXT(panel->combobox_assign),assign_types[idx]);
   }
-
-  gtk_combo_box_text_append_text(
-      GTK_COMBO_BOX_TEXT(panel->combobox_assign),"Mono");
-  gtk_combo_box_text_append_text(
-      GTK_COMBO_BOX_TEXT(panel->combobox_assign),"Poly");
-  gtk_combo_box_text_append_text(
-      GTK_COMBO_BOX_TEXT(panel->combobox_assign),"Unison");
-
-  gtk_combo_box_text_append_text(
-      GTK_COMBO_BOX_TEXT(panel->combobox_trigger),"Single");
-  gtk_combo_box_text_append_text(
-      GTK_COMBO_BOX_TEXT(panel->combobox_trigger),"Multi");
+  
+  for(idx = 0; idx < trigger_types_nb; idx++) {
+    gtk_combo_box_text_append_text(
+        GTK_COMBO_BOX_TEXT(panel->combobox_trigger),trigger_types[idx]);
+  }
 
   gtk_widget_set_sensitive(panel->scale_detune,0);
 

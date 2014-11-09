@@ -54,9 +54,9 @@ void sound_panel_cb_build(SoundPanel *panel) {
 
   for(layer = 0; layer < 2; layer++) {
     voice_panel_cb_build(panel->voice[layer]);
-    osc1_panel_cb_build(panel->osc1[layer]);
-    lfo1_panel_cb_build(panel->lfo1[layer]);
-    lfo2_panel_cb_build(panel->lfo2[layer]);
+//    osc1_panel_cb_build(panel->osc1[layer]);
+//    lfo1_panel_cb_build(panel->lfo1[layer]);
+//    lfo2_panel_cb_build(panel->lfo2[layer]);
   }
 
   g_signal_connect(G_OBJECT(panel->libSignalHook),

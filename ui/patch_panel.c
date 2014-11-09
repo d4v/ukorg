@@ -1,79 +1,16 @@
+#include <stdlib.h>
 #include "patch_panel.h"
 
 typedef struct _PatchPanel {
   VoiceLayer     layer;
   TempoSync      tempo_sync;
-  GtkWidget     *combobox_patch1_src;
-  GtkWidget     *combobox_patch1_dst;
-  GtkWidget     *combobox_patch1_mod;
-  GtkWidget     *combobox_patch2_src;
-  GtkWidget     *combobox_patch2_dst;
-  GtkWidget     *combobox_patch2_mod;
-  GtkWidget     *combobox_patch3_src;
-  GtkWidget     *combobox_patch3_dst;
-  GtkWidget     *combobox_patch3_mod;
-  GtkWidget     *combobox_patch4_src;
-  GtkWidget     *combobox_patch4_dst;
-  GtkWidget     *combobox_patch4_mod;
+  GtkWidget     *combobox_patch_src[4];
+  GtkWidget     *combobox_patch_dst[4];
+  GtkWidget     *combobox_patch_int[4];
 } PatchPanel;
-
-void patch_panel_build_timbre_1(PatchPanel *panel, GtkBuilder *builder) {
-  panel->combobox_patch1_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_src0");
-  panel->combobox_patch1_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_dst0");
-  panel->combobox_patch1_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_mod0");
-  panel->combobox_patch2_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_src0");
-  panel->combobox_patch2_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_dst0");
-  panel->combobox_patch2_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_mod0");
-  panel->combobox_patch3_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_src0");
-  panel->combobox_patch3_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_dst0");
-  panel->combobox_patch3_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_mod0");
-  panel->combobox_patch4_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_src0");
-  panel->combobox_patch4_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_dst0");
-  panel->combobox_patch4_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_mod0");
-}
-
-void patch_panel_build_timbre_2(PatchPanel *panel, GtkBuilder *builder) {
-  panel->combobox_patch1_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_src1");
-  panel->combobox_patch1_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_dst1");
-  panel->combobox_patch1_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch1_mod1");
-  panel->combobox_patch2_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_src1");
-  panel->combobox_patch2_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_dst1");
-  panel->combobox_patch2_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch2_mod1");
-  panel->combobox_patch3_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_src1");
-  panel->combobox_patch3_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_dst1");
-  panel->combobox_patch3_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch3_mod1");
-  panel->combobox_patch4_src =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_src1");
-  panel->combobox_patch4_dst =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_dst1");
-  panel->combobox_patch4_mod =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_patch4_mod1");
-}
 
 PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
   PatchPanel *panel = (PatchPanel *) malloc(sizeof(PatchPanel));
-  int idx = 0;
 
   static const char *src_types[] = {
     "FilterEG", "AmpEG", "LFO1", "LFO2", "Velocity",
@@ -85,41 +22,63 @@ PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
     "Cut off", "Amp", "Pan", "LFO2 freq"};
   static const char dst_types_nb = 8;
 
+  static const char * src_names[] = {
+    "combobox_patch1_src","combobox_patch2_src",
+    "combobox_patch3_src","combobox_patch4_src"};
+
+  static const char * dst_names[] = {
+    "combobox_patch1_dst","combobox_patch2_dst",
+    "combobox_patch3_dst","combobox_patch4_dst"};
+
+  static const char * int_names[] = {
+    "combobox_patch1_int","combobox_patch2_int",
+    "combobox_patch3_int","combobox_patch4_int"};
+
+  static const int patch_names_nb = 4;
+
+  int nameIdx = 0,srcIdx = 0,dstIdx = 0;
+
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      patch_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      patch_panel_build_timbre_2(panel,builder);
-      break;
+  for(nameIdx = 0; nameIdx < patch_names_nb; nameIdx++) {
+    panel->combobox_patch_src[nameIdx] =
+      (GtkWidget*) gtk_builder_get_object(builder,src_names[nameIdx]);
+    panel->combobox_patch_dst[nameIdx] =
+      (GtkWidget*) gtk_builder_get_object(builder,dst_names[nameIdx]);
+    panel->combobox_patch_int[nameIdx] =
+      (GtkWidget*) gtk_builder_get_object(builder,int_names[nameIdx]);
+
+    for(srcIdx = 0; srcIdx < src_types_nb; srcIdx++) {
+      gtk_combo_box_text_append_text(
+          GTK_COMBO_BOX_TEXT(panel->combobox_patch_src[nameIdx]),
+          src_types[srcIdx]);
+    }
+
+    for(dstIdx = 0; dstIdx < dst_types_nb; dstIdx++) {
+      gtk_combo_box_text_append_text(
+          GTK_COMBO_BOX_TEXT(panel->combobox_patch_dst[nameIdx]),
+          dst_types[dstIdx]);
+    }
   }
 
-ICIIII optimiser cette horreur...
+  return panel;
+}
 
-  for(idx = 0; idx < src_types_nb; idx++) {
-    gtk_combo_box_text_append_text(
-        GTK_COMBO_BOX_TEXT(panel->combobox_patch1_src),src_types[idx]);
+void patch_panel_set(PatchPanel *panel,const ProgMsg *progMsg) {
+  int idx = 0;
+  
+  for(idx = 0; idx < 4; idx++) {
+    gtk_combo_box_set_active(
+        GTK_COMBO_BOX(panel->combobox_patch_src[idx]),
+        getPatchSrc(panel->layer,idx,progMsg));
+
+    gtk_combo_box_set_active(
+        GTK_COMBO_BOX(panel->combobox_patch_dst[idx]),
+        getPatchDst(panel->layer,idx,progMsg));
+
+    gtk_combo_box_set_active(
+        GTK_COMBO_BOX(panel->combobox_patch_int[idx]),
+        getPatchModInt(panel->layer,idx,progMsg));
   }
-
-  for(idx = 0; idx < src_types_nb; idx++) {
-    gtk_combo_box_text_append_text(
-        GTK_COMBO_BOX_TEXT(panel->combobox_patch2_src),src_types[idx]);
-  }
-
-  for(idx = 0; idx < src_types_nb; idx++) {
-    gtk_combo_box_text_append_text(
-        GTK_COMBO_BOX_TEXT(panel->combobox_patch2_src),src_types[idx]);
-  }
-
-  for(idx = 0; idx < src_types_nb; idx++) {
-    gtk_combo_box_text_append_text(
-        GTK_COMBO_BOX_TEXT(panel->combobox_patch2_src),src_types[idx]);
-  }
-
-
-
-
-
+}
 

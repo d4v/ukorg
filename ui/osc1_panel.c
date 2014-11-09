@@ -15,47 +15,6 @@ typedef struct _Osc1Panel {
   GtkWidget     *combobox_dwgs;
 } Osc1Panel;
 
-void osc1_panel_build_timbre_1(Osc1Panel *panel, GtkBuilder *builder) {
-  
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level0");
-
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc1wave0");
-  panel->scale_ctrl1 =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl1_0");
-  panel->adjust_ctrl1 =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl1_0");
-
-  panel->slot_ctrl2 = 
-    (GtkWidget*) gtk_builder_get_object(builder,"slot_osc1ctrl2_0");
-  panel->scale_ctrl2 =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl2_0");
-  panel->adjust_ctrl2 =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl2_0");
-}
-
-void osc1_panel_build_timbre_2(Osc1Panel *panel, GtkBuilder *builder) {
-
-  panel->adjust_level =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level1");
-
-  panel->combobox_wave =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc1wave1");
-  panel->scale_ctrl1 =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl1_1");
-  panel->adjust_ctrl1 =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl1_1");
-
-  panel->slot_ctrl2 = 
-    (GtkWidget*) gtk_builder_get_object(builder,"slot_osc1ctrl2_1");
-  panel->scale_ctrl2 =
-    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl2_1");
-  panel->adjust_ctrl2 =
-    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl2_1");
-
-}
-
 Osc1Panel * osc1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   Osc1Panel *panel = (Osc1Panel*) malloc(sizeof(Osc1Panel));
   int idx = 0;
@@ -86,14 +45,22 @@ Osc1Panel * osc1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
 
   panel->layer = layer;
 
-  switch (layer) {
-    case TIMBRE_1:
-      osc1_panel_build_timbre_1(panel,builder);
-      break;
-    case TIMBRE_2:
-      osc1_panel_build_timbre_2(panel,builder);
-      break;
-  }
+  panel->adjust_level =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1level");
+
+  panel->combobox_wave =
+    (GtkWidget*) gtk_builder_get_object(builder,"combobox_osc1wave");
+  panel->scale_ctrl1 =
+    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl1");
+  panel->adjust_ctrl1 =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl1");
+
+  panel->slot_ctrl2 = 
+    (GtkWidget*) gtk_builder_get_object(builder,"slot_osc1ctrl2");
+  panel->scale_ctrl2 =
+    (GtkWidget*) gtk_builder_get_object(builder,"scale_osc1ctrl2");
+  panel->adjust_ctrl2 =
+    (GtkAdjustment*) gtk_builder_get_object(builder,"adjust_osc1ctrl2");
 
   panel->combobox_dwgs =
     (GtkWidget*) gtk_combo_box_text_new();
