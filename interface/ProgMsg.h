@@ -66,7 +66,7 @@ int getVibratoInt(VoiceLayer layer, const ProgMsg *msg);
 //
 
 typedef enum {
-  WAV_SAW,
+  WAV_SAW = 0,
   WAV_SQUARE,
   WAV_TRIANGLE,
   WAV_SINE,

@@ -6,7 +6,7 @@ typedef struct _PatchPanel {
   TempoSync      tempo_sync;
   GtkWidget     *combobox_patch_src[4];
   GtkWidget     *combobox_patch_dst[4];
-  GtkWidget     *combobox_patch_int[4];
+  GtkWidget     *adjust_patch_int[4];
 } PatchPanel;
 
 PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
@@ -31,8 +31,8 @@ PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
     "combobox_patch3_dst","combobox_patch4_dst"};
 
   static const char * int_names[] = {
-    "combobox_patch1_int","combobox_patch2_int",
-    "combobox_patch3_int","combobox_patch4_int"};
+    "adjust_patch1","adjust_patch3",
+    "adjust_patch3","adjust_patch4"};
 
   static const int patch_names_nb = 4;
 
@@ -45,7 +45,7 @@ PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
       (GtkWidget*) gtk_builder_get_object(builder,src_names[nameIdx]);
     panel->combobox_patch_dst[nameIdx] =
       (GtkWidget*) gtk_builder_get_object(builder,dst_names[nameIdx]);
-    panel->combobox_patch_int[nameIdx] =
+    panel->adjust_patch_int[nameIdx] =
       (GtkWidget*) gtk_builder_get_object(builder,int_names[nameIdx]);
 
     for(srcIdx = 0; srcIdx < src_types_nb; srcIdx++) {
@@ -76,8 +76,8 @@ void patch_panel_set(PatchPanel *panel,const ProgMsg *progMsg) {
         GTK_COMBO_BOX(panel->combobox_patch_dst[idx]),
         getPatchDst(panel->layer,idx,progMsg));
 
-    gtk_combo_box_set_active(
-        GTK_COMBO_BOX(panel->combobox_patch_int[idx]),
+    gtk_adjustment_set_value(
+        GTK_ADJUSTMENT(panel->adjust_patch_int[idx]),
         getPatchModInt(panel->layer,idx,progMsg));
   }
 }

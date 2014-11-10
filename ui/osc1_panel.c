@@ -7,6 +7,7 @@ typedef struct _Osc1Panel {
   GtkAdjustment *adjust_level;
   GtkWidget     *combobox_wave;
   WaveType       wave_type;
+  DwgsWave       dwgs_wave;
   GtkWidget     *scale_ctrl1;
   GtkAdjustment *adjust_ctrl1;
   GtkWidget     *slot_ctrl2;
@@ -14,6 +15,8 @@ typedef struct _Osc1Panel {
   GtkAdjustment *adjust_ctrl2;
   GtkWidget     *combobox_dwgs;
 } Osc1Panel;
+
+void osc1_panel_set_layout(Osc1Panel *panel);
 
 Osc1Panel * osc1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
   Osc1Panel *panel = (Osc1Panel*) malloc(sizeof(Osc1Panel));
@@ -80,22 +83,35 @@ Osc1Panel * osc1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
         GTK_COMBO_BOX_TEXT(panel->combobox_dwgs),dwgs_sounds[idx]);
   }
 
+  panel->wave_type = 0;
   gtk_combo_box_set_active(
-      GTK_COMBO_BOX(panel->combobox_wave),-1);
+      GTK_COMBO_BOX(panel->combobox_wave),panel->wave_type);
 
+  panel->dwgs_wave = 0;
   gtk_combo_box_set_active(
-      GTK_COMBO_BOX(panel->combobox_dwgs),-1);
+      GTK_COMBO_BOX(panel->combobox_dwgs),panel->dwgs_wave);
 
   return panel;
 }
 
 void osc1_panel_unset_layout(Osc1Panel *panel) {
-  if(panel->wave_type == WAV_DWGS) {
-    gtk_container_remove(GTK_CONTAINER(panel->slot_ctrl2),
-                         panel->combobox_dwgs);
-  } else {
-    gtk_container_remove(GTK_CONTAINER(panel->slot_ctrl2),
-                         panel->scale_ctrl2);
+  switch (panel->wave_type) {
+    case WAV_DWGS:
+      gtk_container_remove(GTK_CONTAINER(panel->slot_ctrl2),
+                           panel->combobox_dwgs);
+      break;
+    case WAV_SAW:
+    case WAV_SQUARE:
+    case WAV_TRIANGLE:
+    case WAV_SINE:
+    case WAV_VOX:
+    case WAV_NOISE:
+    case WAV_AUDIOIN:
+      gtk_container_remove(GTK_CONTAINER(panel->slot_ctrl2),
+                           panel->scale_ctrl2);
+    default:
+      // Initialization, nothing to do
+      break;
   }
 }
 

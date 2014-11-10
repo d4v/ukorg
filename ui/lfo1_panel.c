@@ -5,9 +5,10 @@
 typedef struct _Lfo1Panel {
   VoiceLayer     layer;
   TempoSync      tempo_sync;
+  SyncNote       sync_note;
   GtkWidget     *combobox_wave;
   GtkWidget     *combobox_keySync;
-  GtkWidget     *combobox_tempoSync;
+  GtkWidget     *switch_tempoSync;
   GtkWidget     *label_slot4;
   GtkWidget     *align_slot4;
   GtkWidget     *scale_frequency;
@@ -27,10 +28,6 @@ Lfo1Panel * lfo1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
     "Off", "Timbre", "Voice"};
   static const int key_syncs_nb = 3;
 
-  static const char *tempo_syncs[] = {
-    "Off", "On"};
-  static const int tempo_syncs_nb = 2;
-
   static const char *sync_notes[] = {
     "1/1" ,"3/4" ,"2/3" ,"1/2" ,
     "3/8" ,"1/3" ,"1/4" ,"3/16", // 8
@@ -44,8 +41,8 @@ Lfo1Panel * lfo1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
     (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo1wave");
   panel->combobox_keySync =
     (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo1ksync");
-  panel->combobox_tempoSync =
-    (GtkWidget*) gtk_builder_get_object(builder,"combobox_lfo1tsync");
+  panel->switch_tempoSync =
+    (GtkWidget*) gtk_builder_get_object(builder,"switch_lfo1tsync");
   panel->label_slot4 =
     (GtkWidget*) gtk_builder_get_object(builder,"label_lfo1slot4");
   panel->align_slot4 =
@@ -73,18 +70,19 @@ Lfo1Panel * lfo1_panel_build(GtkBuilder *builder,VoiceLayer layer) {
         GTK_COMBO_BOX_TEXT(panel->combobox_keySync),key_syncs[idx]);
   }
 
-  for(idx = 0; idx < tempo_syncs_nb; idx++) {
-    gtk_combo_box_text_append_text(
-        GTK_COMBO_BOX_TEXT(panel->combobox_tempoSync),tempo_syncs[idx]);
-  }
-
   for(idx = 0; idx < sync_notes_nb; idx++) {
     gtk_combo_box_text_append_text(
         GTK_COMBO_BOX_TEXT(panel->combobox_syncNote),sync_notes[idx]);
   }
 
+  panel->tempo_sync = 0;
+  panel->sync_note = 0;
+
+  gtk_switch_set_active(
+      GTK_SWITCH(panel->switch_tempoSync),panel->tempo_sync);
+
   gtk_combo_box_set_active(
-      GTK_COMBO_BOX(panel->combobox_syncNote),0);
+      GTK_COMBO_BOX(panel->combobox_syncNote),panel->sync_note);
 
   return panel;
 }
@@ -132,8 +130,8 @@ void lfo1_panel_set(Lfo1Panel *panel,const ProgMsg *progMsg) {
       GTK_COMBO_BOX(panel->combobox_keySync),
       getLfo1KeySync(panel->layer,progMsg));
 
-  gtk_combo_box_set_active(
-      GTK_COMBO_BOX(panel->combobox_tempoSync),
+  gtk_switch_set_active(
+      GTK_SWITCH(panel->switch_tempoSync),
       getLfo1TempoSync(panel->layer,progMsg));
 
   gtk_adjustment_set_value(
@@ -146,9 +144,10 @@ void lfo1_panel_set(Lfo1Panel *panel,const ProgMsg *progMsg) {
 
 }
 
-void lfo1_on_tempo_sync_changed(GtkComboBox *combobox, gpointer user_data) {
+void lfo1_on_tempo_sync_changed(GtkSwitch *tsyncSwitch, GParamSpec *pspec,gpointer user_data) {
   Lfo1Panel *panel = (Lfo1Panel*) user_data;
-  TempoSync newStatus = gtk_combo_box_get_active(combobox);
+
+  TempoSync newStatus = gtk_switch_get_active(tsyncSwitch);
 
   if(newStatus != panel->tempo_sync) {
     lfo1_panel_change_layout(panel,newStatus);
@@ -156,7 +155,7 @@ void lfo1_on_tempo_sync_changed(GtkComboBox *combobox, gpointer user_data) {
 }
 
 void lfo1_panel_cb_build(Lfo1Panel *panel) {
-  g_signal_connect(panel->combobox_tempoSync,"changed",
+  g_signal_connect(panel->switch_tempoSync,"notify::active",
       (GCallback) lfo1_on_tempo_sync_changed,panel);
 }
 
