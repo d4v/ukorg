@@ -3,7 +3,6 @@
 
 typedef struct _PatchPanel {
   VoiceLayer     layer;
-  TempoSync      tempo_sync;
   GtkWidget     *combobox_patch_src[4];
   GtkWidget     *combobox_patch_dst[4];
   GtkWidget     *adjust_patch_int[4];
@@ -31,7 +30,7 @@ PatchPanel * patch_panel_build(GtkBuilder *builder, VoiceLayer layer) {
     "combobox_patch3_dst","combobox_patch4_dst"};
 
   static const char * int_names[] = {
-    "adjust_patch1","adjust_patch3",
+    "adjust_patch1","adjust_patch2",
     "adjust_patch3","adjust_patch4"};
 
   static const int patch_names_nb = 4;

@@ -12,8 +12,7 @@
 #include "filtereg_panel.h"
 #include "amp_panel.h"
 #include "ampeg_panel.h"
-#include "lfo1_panel.h"
-#include "lfo2_panel.h"
+#include "lfo_panel.h"
 #include "patch_panel.h"
 #include "sound_panel.h"
 #include "sound_panel_internal.h"
@@ -41,8 +40,7 @@ SoundPanel * sound_panel_build(
     panel->filterEg[layer] = filtereg_panel_build(builder[layer],layer);
     panel->amp[layer]      = amp_panel_build(builder[layer],layer);
     panel->ampEg[layer]    = ampeg_panel_build(builder[layer],layer);
-    panel->lfo1[layer]     = lfo1_panel_build(builder[layer],layer);
-    panel->lfo2[layer]     = lfo2_panel_build(builder[layer],layer);
+    panel->lfo[layer]      = lfo_panel_build(builder[layer],layer);
     panel->patch[layer]    = patch_panel_build(builder[layer],layer);
   }
 
@@ -68,8 +66,7 @@ void sound_panel_set(SoundPanel *panel,const ProgMsg *progMsg) {
     filtereg_panel_set(panel->filterEg[layer],progMsg);
     amp_panel_set(panel->amp[layer],progMsg);
     ampeg_panel_set(panel->ampEg[layer],progMsg);
-    lfo1_panel_set(panel->lfo1[layer],progMsg);
-    lfo2_panel_set(panel->lfo2[layer],progMsg);
+    lfo_panel_set(panel->lfo[layer],progMsg);
     patch_panel_set(panel->patch[layer],progMsg);
   }
 }

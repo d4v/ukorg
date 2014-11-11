@@ -199,33 +199,6 @@ Lfo1WaveType getLfo1WaveType(VoiceLayer layer, const ProgMsg *msg){
   return (Lfo1WaveType) type;
 }
 
-KeySync getLfo1KeySync(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo1Wave;
-
-  sync >>= 4;
-  sync &= 0x03;
-  return (KeySync) sync;
-}
-
-TempoSync getLfo1TempoSync(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo1Sync;
-
-  sync >>= 7;
-  sync &= 0x01;
-  return (TempoSync) sync;
-}
-
-int getLfo1Frequency(VoiceLayer layer, const ProgMsg *msg){
-  return msg->params.synths.timbre[layer].lfo1Freq;
-}
-
-SyncNote getLfo1SyncNote(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo1Sync;
-
-  sync &= 0x1F; // 0001 1111
-  return (SyncNote) sync;
-}
-
 Lfo2WaveType getLfo2WaveType(VoiceLayer layer, const ProgMsg *msg){
   int type = msg->params.synths.timbre[layer].lfo2Wave;
 
@@ -233,28 +206,59 @@ Lfo2WaveType getLfo2WaveType(VoiceLayer layer, const ProgMsg *msg){
   return (Lfo2WaveType) type;
 }
 
-KeySync getLfo2KeySync(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo2Wave;
+KeySync getLfoKeySync(VoiceLayer layer, LfoId id, const ProgMsg *msg){
+  int sync = 0;
+  switch(id) {
+    case LFO_ID_1:
+      sync = msg->params.synths.timbre[layer].lfo1Wave;
+      break;
+    case LFO_ID_2:
+      sync = msg->params.synths.timbre[layer].lfo2Wave;
+      break;
+  }
 
   sync >>= 4;
   sync &= 0x03;
   return (KeySync) sync;
 }
 
-TempoSync getLfo2TempoSync(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo2Sync;
+TempoSync getLfoTempoSync(VoiceLayer layer, LfoId id,const ProgMsg *msg){
+  int sync = 0;
+  switch (id) {
+    case LFO_ID_1:
+      sync = msg->params.synths.timbre[layer].lfo1Sync;
+      break;
+    case LFO_ID_2:
+      sync = msg->params.synths.timbre[layer].lfo2Sync;
+      break;
+  }
 
   sync >>= 7;
   sync &= 0x01;
   return (TempoSync) sync;
 }
 
-int getLfo2Frequency(VoiceLayer layer, const ProgMsg *msg){
-  return msg->params.synths.timbre[layer].lfo2Freq;
+int getLfoFrequency(VoiceLayer layer, LfoId id, const ProgMsg *msg){
+  int ret = 0;
+  switch(id) {
+    case LFO_ID_1:
+      ret = msg->params.synths.timbre[layer].lfo1Freq;
+    case LFO_ID_2:
+      ret = msg->params.synths.timbre[layer].lfo2Freq;
+  }
+  return ret;
 }
 
-SyncNote getLfo2SyncNote(VoiceLayer layer, const ProgMsg *msg){
-  int sync = msg->params.synths.timbre[layer].lfo2Sync;
+SyncNote getLfoSyncNote(VoiceLayer layer, LfoId id, const ProgMsg *msg){
+  int sync = 0;
+  switch(id) {
+    case LFO_ID_1:
+      sync = msg->params.synths.timbre[layer].lfo1Sync;
+      break;
+    case LFO_ID_2:
+      sync = msg->params.synths.timbre[layer].lfo2Sync;
+      break;
+  }
 
   sync &= 0x1F; // 0001 1111
   return (SyncNote) sync;

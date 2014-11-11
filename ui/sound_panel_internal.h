@@ -14,8 +14,7 @@ typedef struct _FilterPanel   FilterPanel;
 typedef struct _FilterEgPanel FilterEgPanel;
 typedef struct _AmpPanel      AmpPanel;
 typedef struct _AmpEgPanel    AmpEgPanel;
-typedef struct _Lfo1Panel     Lfo1Panel;
-typedef struct _Lfo2Panel     Lfo2Panel;
+typedef struct _LfoPanel      LfoPanel;
 typedef struct _PatchPanel    PatchPanel;
 
 typedef struct _SoundPanel {
@@ -30,8 +29,7 @@ typedef struct _SoundPanel {
   FilterEgPanel *filterEg[2];
   AmpPanel      *amp[2];
   AmpEgPanel    *ampEg[2];
-  Lfo1Panel     *lfo1[2];
-  Lfo2Panel     *lfo2[2];
+  LfoPanel      *lfo[2];
   PatchPanel    *patch[2];
 } SoundPanel;
 
